@@ -5,10 +5,14 @@ public class Data {
     /*Pokemon : Nombre ,Tipo (Fuego, Agua, Planta, etc.) , Puntos de Salud (HP) ,Ataque (At) , Defensa (Df) 
     , Ataque Especial (AtS) , Defensa Especial (DeS) , Velocidad , Ataques disponibles (pueden ser hasta 4) */ 
 
+
+    // Se crean los ataques de cada tipo de Pokemon
     private static final ArrayList<Ataque> fireMoves = new ArrayList<>();
     private static final ArrayList<Ataque> waterMoves = new ArrayList<>();
     private static final ArrayList<Ataque> grassMoves = new ArrayList<>();
     private static final ArrayList<Ataque> groundMoves = new ArrayList<>();
+
+    // Se crean los Pokemon de cada tipo
     private static final ArrayList<Pokemon> pokemons = new ArrayList<>();
 
 
