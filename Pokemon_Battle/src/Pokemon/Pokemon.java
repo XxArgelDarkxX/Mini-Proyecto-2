@@ -58,7 +58,7 @@ public class Pokemon {
         this.moves = moves;
         this.frontSprite = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + pokedexId + ".png";
         this.backSprite = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/" + pokedexId + ".png";
-        this.icon = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-i/red-blue/" + pokedexId + ".png";
+        this.icon = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-viii/icons/" + pokedexId + ".png";
     }
 
     public void setName(String name) {
