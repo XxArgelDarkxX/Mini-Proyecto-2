@@ -1,17 +1,21 @@
 package Interfaces;
+import Data.Pokemons;
+import Entrenador.Trainer;
+import Pokemon.Pokemon;
 
+import javax.swing.*;
 import java.awt.Color;
-import java.util.ArrayList;
 
 public class agregar_entrenador extends javax.swing.JFrame {
+    Trainer[] trainers = new Trainer[2];
+    Pokemons data = new Pokemons();
+    Pokemon poke = new Pokemon();
 
     public agregar_entrenador() {
         initComponents();
     }
-
-    ArrayList<String> empezar_entrenador = new ArrayList<>(2);
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
         jPanel2 = new javax.swing.JPanel();
@@ -168,7 +172,7 @@ public class agregar_entrenador extends javax.swing.JFrame {
         );
 
         pack();
-    }// </editor-fold>
+    }// </editor-fold>                        
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
@@ -181,9 +185,9 @@ public class agregar_entrenador extends javax.swing.JFrame {
     }
 
     private void jTextField1FocusLost(java.awt.event.FocusEvent evt) {
-        if(!jTextField1.getText().equals("")){
-            empezar_entrenador.add(jTextField1.getText());
-        }
+        trainers[0] = new Trainer();
+        String nombreEntrenador1 = jTextField1.getText().trim();
+        trainers[0].setName(nombreEntrenador1);
     }
 
     private void cuadro_entrenador_1FocusGained(java.awt.event.FocusEvent evt) {
@@ -191,9 +195,9 @@ public class agregar_entrenador extends javax.swing.JFrame {
     }
 
     private void cuadro_entrenador_1FocusLost(java.awt.event.FocusEvent evt) {
-        if(!cuadro_entrenador_1.getText().equals("")){
-            empezar_entrenador.add(cuadro_entrenador_1.getText());
-        }
+        trainers[1] = new Trainer();
+        String nombreEntrenador2 = cuadro_entrenador_1.getText().trim();
+        trainers[1].setName(nombreEntrenador2);
     }
 
     private void cuadro_entrenador_1ActionPerformed(java.awt.event.ActionEvent evt) {
@@ -202,11 +206,28 @@ public class agregar_entrenador extends javax.swing.JFrame {
 
     private void botonAgregarActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-        if(!jTextField1.getText().isEmpty() && !cuadro_entrenador_1.getText().isEmpty()) {
+        String nombreEntrenador1 = jTextField1.getText().trim();
+        String nombreEntrenador2 = cuadro_entrenador_1.getText().trim();
+
+        if(nombreEntrenador1.isEmpty() || nombreEntrenador2.isEmpty()){
+            JOptionPane.showMessageDialog(null, "El entrenador no puede estar vacio");
+        }else if(nombreEntrenador1.equals(nombreEntrenador2)){
+            JOptionPane.showMessageDialog(null, "El entrenador ya existe");
+        }else{
+            // Actualizar los objetos entrenador
+            trainers[0].setName(nombreEntrenador1);
+            trainers[1].setName(nombreEntrenador2);
+            //agregar los pokemones
+            data.initializeData();
+            trainers[0].setRandomPokemonTeam(data.getPokemons());
+            trainers[1].setRandomPokemonTeam(data.getPokemons());
+
+            //se abre la otra ventana de pokemone
             this.dispose();
-            PokemonInterfaz pokemon = new PokemonInterfaz();
-            pokemon.setVisible(true);
+            pokemones vista = new pokemones(trainers);
+            vista.setVisible(true);
         }
+
     }
 
     private void botonAgregarMouseEntered(java.awt.event.MouseEvent evt) {
@@ -255,7 +276,7 @@ public class agregar_entrenador extends javax.swing.JFrame {
         });
     }
 
-    // Variables declaration - do not modify
+    // Variables declaration - do not modify                     
     private javax.swing.JButton botonAgregar;
     private javax.swing.JTextField cuadro_entrenador_1;
     private javax.swing.JLabel entrenador_1;
@@ -265,5 +286,5 @@ public class agregar_entrenador extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel titulo;
-    // End of variables declaration
+    // End of variables declaration                   
 }

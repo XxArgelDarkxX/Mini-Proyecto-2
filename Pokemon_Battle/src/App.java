@@ -1,6 +1,7 @@
 import Data.Pokemons;
-import Interfaces.PokemonInterfaz;
+import Interfaces.pokemones;
 import Interfaces.Usuario;
+import Interfaces.agregar_entrenador;
 import Pokemon.Pokemon;
 import java.util.ArrayList;
 
