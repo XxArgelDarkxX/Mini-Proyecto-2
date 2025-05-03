@@ -4,8 +4,11 @@
  */
 package Interfaces;
 import Entrenador.Trainer;
+import Pokemon.Pokemon;
 
+import javax.swing.*;
 import java.awt.Color;
+import java.util.ArrayList;
 
 /**
  *
@@ -14,6 +17,7 @@ import java.awt.Color;
 public class pokemones extends javax.swing.JFrame {
 
     private  Trainer[] trainers;
+    String[] pokemonsBattle = new String[2];
 
 
     /**
@@ -60,6 +64,8 @@ public class pokemones extends javax.swing.JFrame {
         jLabel3.setText("jLabel3");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
+
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -256,21 +262,34 @@ public class pokemones extends javax.swing.JFrame {
         // TODO add your handling code here:
         batalla.setBackground(Color.white);
     }
-
+    String pokemon1 , pokemon2;
     private void textoEscoger1ActionPerformed(java.awt.event.ActionEvent evt) {
 
     }
 
     private void textoEscoger2ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+
     }
 
     private void batallaActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
+        String pokemon1 = textoEscoger1.getText().trim();
+        pokemonsBattle[0] = pokemon1;
+        String pokemon2 = textoEscoger2.getText().trim();
+        pokemonsBattle[1] = pokemon2;
+        if(pokemon1.equals("") && pokemon2.equals("")){
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un pokemon");
+        } else if (!(trainers[0].getPokemonTeam().get(0).getPokedexId().equals(pokemon1) ||trainers[0].getPokemonTeam().get(1).getPokedexId().equals(pokemon1) || trainers[0].getPokemonTeam().get(2).getPokedexId().equals(pokemon1))) {
+            JOptionPane.showMessageDialog(null, "esta mal el id del pokemon 1");
+        }else if(!(trainers[1].getPokemonTeam().get(0).getPokedexId().equals(pokemon2) ||trainers[1].getPokemonTeam().get(1).getPokedexId().equals(pokemon2) || trainers[1].getPokemonTeam().get(2).getPokedexId().equals(pokemon2))){
+            JOptionPane.showMessageDialog(null, "esta mal el id del pokemon 2");
+        }else {
+            System.out.println( pokemonsBattle[0] + pokemonsBattle[1]);
+            this.dispose();
+            Battle batallas = new Battle(trainers, pokemonsBattle);
+            batallas.setVisible(true);
+        }
 
-        this.dispose();
-        Battle batallas = new Battle();
-        batallas.setVisible(true);
     }
 
     /**

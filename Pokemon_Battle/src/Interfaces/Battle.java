@@ -4,21 +4,27 @@
  */
 package Interfaces;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Image;
+import Entrenador.Trainer;
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JPanel;
-import javax.swing.SwingWorker;
+import javax.swing.*;
 
 /**
  *
  * @author crisc
  */
-public class Battle extends javax.swing.JFrame {
+public class Battle extends JFrame {
 
+    public  Trainer[] trainers;
+    public String[] pokemonsBattle;
     /**
      * Creates new form Battle
      */
@@ -29,6 +35,15 @@ public class Battle extends javax.swing.JFrame {
         cargarImagenPokemon();
         cargarImagenPokemon2();
     }
+    public Battle(Trainer[] trainers, String[] pokemonsBattle) {
+        this.pokemonsBattle = pokemonsBattle;
+        this.trainers = trainers;
+        initComponents();
+        cargarImagenPokemon();
+        cargarImagenPokemon2();
+        System.out.println(pokemonsBattle[0]+ " "+  pokemonsBattle[1]);
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -38,231 +53,393 @@ public class Battle extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
-        jPanel2 = new javax.swing.JPanel();
+        jPanel2 = new JPanel();
         jPanel1 = new FondoPanel();
-        imageUrl = new javax.swing.JLabel();
-        pokemon2 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        ataque1 = new javax.swing.JToggleButton();
-        ataque2 = new javax.swing.JToggleButton();
-        ataque3 = new javax.swing.JToggleButton();
-        ataque4 = new javax.swing.JToggleButton();
-        pokemon = new javax.swing.JLabel();
-        vida = new javax.swing.JLabel();
-        entrenador = new javax.swing.JLabel();
+        imageUrl = new JLabel();
+        ImageUrl2 = new JLabel();
+        ataque1_2 = new JToggleButton();
+        ataque1_1 = new JToggleButton();
+        ataque1_3 = new JToggleButton();
+        ataque1_4 = new JToggleButton();
+        vida1 = new JLabel();
+        pokemon1 = new JLabel();
+        entrenador1 = new JLabel();
+        entrenador2 = new JLabel();
+        pokemo2 = new JLabel();
+        vida2 = new JLabel();
+        ataque2_1 = new JToggleButton();
+        ataque2_2 = new JToggleButton();
+        ataque2_3 = new JToggleButton();
+        ataque2_4 = new JToggleButton();
+        jPanel3 = new JPanel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
-        jPanel2.setBackground(new java.awt.Color(132, 224, 223));
+        jPanel2.setBackground(new Color(132, 224, 223));
 
         imageUrl.setText("jLabel2");
 
-        pokemon2.setText("jLabel3");
+        ImageUrl2.setText("jLabel3");
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
-                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(90, 90, 90)
-                                .addComponent(imageUrl, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(73, 73, 73)
-                                .addComponent(pokemon2, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(67, 67, 67)
+                                .addComponent(imageUrl, GroupLayout.PREFERRED_SIZE, 249, GroupLayout.PREFERRED_SIZE)
+                                .addGap(37, 37, 37)
+                                .addComponent(ImageUrl2, GroupLayout.PREFERRED_SIZE, 213, GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(71, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
-                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addContainerGap(133, Short.MAX_VALUE)
-                                .addComponent(imageUrl, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(45, 45, 45))
+                jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addContainerGap(124, Short.MAX_VALUE)
+                                .addComponent(imageUrl, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
+                                .addGap(37, 37, 37))
                         .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(42, 42, 42)
-                                .addComponent(pokemon2, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(36, 36, 36)
+                                .addComponent(ImageUrl2, GroupLayout.PREFERRED_SIZE, 134, GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        int x=0, y = 0;
+        for(int i = 0; i < trainers[0].getPokemonTeam().size(); i++){
+            if(pokemonsBattle[0] == trainers[0].getPokemonTeam().get(i).getPokedexId()){
+                x = i;
+            }
+        }
+        for(int i = 0; i < trainers[1].getPokemonTeam().size(); i++){
+            if(pokemonsBattle[1] == trainers[1].getPokemonTeam().get(i).getPokedexId()){
+                y = i;
+            }
+        }
+
+        ataque1_2.setBackground(new Color(255, 255, 255));
+        ataque1_2.setFont(new Font("Roboto", 2, 12)); // NOI18N
+        ataque1_2.setText(trainers[0].getPokemonTeam().get(x).getMoves().get(1).getName());
+        ataque1_2.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent evt) {
+                ataque1_2MouseEntered(evt);
+            }
+            public void mouseExited(MouseEvent evt) {
+                ataque1_2MouseExited(evt);
+            }
+        });
+        ataque1_2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                ataque1_2ActionPerformed(evt);
+            }
+        });
+
+        ataque1_1.setBackground(new Color(255, 255, 255));
+        ataque1_1.setFont(new Font("Roboto", 2, 12)); // NOI18N
+        ataque1_1.setText(trainers[0].getPokemonTeam().get(x).getMoves().get(0).getName());
+        ataque1_1.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent evt) {
+                ataque1_1MouseEntered(evt);
+            }
+            public void mouseExited(MouseEvent evt) {
+                ataque1_1MouseExited(evt);
+            }
+        });
+
+        ataque1_3.setBackground(new Color(255, 255, 255));
+        ataque1_3.setFont(new Font("Roboto", 2, 12)); // NOI18N
+        ataque1_3.setText(trainers[0].getPokemonTeam().get(x).getMoves().get(2).getName());
+        ataque1_3.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent evt) {
+                ataque1_3MouseEntered(evt);
+            }
+            public void mouseExited(MouseEvent evt) {
+                ataque1_3MouseExited(evt);
+            }
+        });
+
+        ataque1_4.setBackground(new Color(255, 255, 255));
+        ataque1_4.setFont(new Font("Roboto", 2, 12)); // NOI18N
+        ataque1_4.setText(trainers[0].getPokemonTeam().get(x).getMoves().get(3).getName());
+        ataque1_4.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent evt) {
+                ataque1_4MouseEntered(evt);
+            }
+            public void mouseExited(MouseEvent evt) {
+                ataque1_4MouseExited(evt);
+            }
+        });
+
+
+        vida1.setFont(new Font("Roboto Black", 3, 12)); // NOI18N
+        vida1.setText(String.valueOf(trainers[1].getPokemonTeam().get(y).getHp()));
+
+        pokemon1.setFont(new Font("Roboto Black", 3, 12)); // NOI18N
+        pokemon1.setText(trainers[0].getPokemonTeam().get(x).getName());
+
+        entrenador1.setFont(new Font("Roboto Black", 1, 12)); // NOI18N
+        entrenador1.setText(trainers[0].getName());
+
+        entrenador2.setFont(new Font("Roboto Black", 1, 12)); // NOI18N
+        entrenador2.setText(trainers[1].getName());
+
+        pokemo2.setFont(new Font("Roboto Black", 3, 12)); // NOI18N
+        pokemo2.setText(trainers[1].getPokemonTeam().get(y).getName());
+
+        vida2.setFont(new Font("Roboto Black", 3, 12)); // NOI18N
+        vida2.setText(String.valueOf(trainers[1].getPokemonTeam().get(y).getHp()));
+
+        ataque2_1.setBackground(new Color(255, 255, 255));
+        ataque2_1.setFont(new Font("Roboto", 2, 12)); // NOI18N
+        ataque2_1.setText(trainers[1].getPokemonTeam().get(y).getMoves().get(0).getName());
+        ataque2_1.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent evt) {
+                ataque2_1MouseEntered(evt);
+            }
+            public void mouseExited(MouseEvent evt) {
+                ataque2_1MouseExited(evt);
+            }
+        });
+
+        ataque2_2.setBackground(new Color(255, 255, 255));
+        ataque2_2.setFont(new Font("Roboto", 2, 12)); // NOI18N
+        ataque2_2.setText(trainers[1].getPokemonTeam().get(y).getMoves().get(1).getName());
+        ataque2_2.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent evt) {
+                ataque2_2MouseEntered(evt);
+            }
+            public void mouseExited(MouseEvent evt) {
+                ataque2_2MouseExited(evt);
+            }
+        });
+        ataque2_2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                ataque2_2ActionPerformed(evt);
+            }
+        });
+
+        ataque2_3.setBackground(new Color(255, 255, 255));
+        ataque2_3.setFont(new Font("Roboto", 2, 12)); // NOI18N
+        ataque2_3.setText(trainers[1].getPokemonTeam().get(y).getMoves().get(2).getName());
+        ataque2_3.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent evt) {
+                ataque2_3MouseEntered(evt);
+            }
+            public void mouseExited(MouseEvent evt) {
+                ataque2_3MouseExited(evt);
+            }
+        });
+
+        ataque2_4.setBackground(new Color(255, 255, 255));
+        ataque2_4.setFont(new Font("Roboto", 2, 12)); // NOI18N
+        ataque2_4.setText(trainers[1].getPokemonTeam().get(y).getMoves().get(3).getName());
+        ataque2_4.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent evt) {
+                ataque2_4MouseEntered(evt);
+            }
+            public void mouseExited(MouseEvent evt) {
+                ataque2_4MouseExited(evt);
+            }
+        });
+
+        jPanel3.setPreferredSize(new Dimension(5, 0));
+
+        GroupLayout jPanel3Layout = new GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+                jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGap(0, 5, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+                jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        jPanel3.setBackground(new java.awt.Color(132, 224, 223));
-        jPanel3.setLayout(new java.awt.GridBagLayout());
-
-        ataque1.setBackground(new java.awt.Color(255, 255, 255));
-        ataque1.setFont(new java.awt.Font("Roboto", 2, 12)); // NOI18N
-        ataque1.setText("jToggleButton1");
-        ataque1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                ataque1MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                ataque1MouseExited(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.ipadx = 17;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 19, 28, 0);
-        jPanel3.add(ataque1, gridBagConstraints);
-
-        ataque2.setBackground(new java.awt.Color(255, 255, 255));
-        ataque2.setFont(new java.awt.Font("Roboto", 2, 12)); // NOI18N
-        ataque2.setText("jToggleButton2");
-        ataque2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                ataque2MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                ataque2MouseExited(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.ipadx = 15;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 8, 28, 0);
-        jPanel3.add(ataque2, gridBagConstraints);
-
-        ataque3.setBackground(new java.awt.Color(255, 255, 255));
-        ataque3.setFont(new java.awt.Font("Roboto", 2, 12)); // NOI18N
-        ataque3.setText("jToggleButton3");
-        ataque3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                ataque3MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                ataque3MouseExited(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.ipadx = 15;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 37, 28, 0);
-        jPanel3.add(ataque3, gridBagConstraints);
-
-        ataque4.setBackground(new java.awt.Color(255, 255, 255));
-        ataque4.setFont(new java.awt.Font("Roboto", 2, 12)); // NOI18N
-        ataque4.setText("jToggleButton4");
-        ataque4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                ataque4MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                ataque4MouseExited(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.ipadx = 15;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 37, 28, 2);
-        jPanel3.add(ataque4, gridBagConstraints);
-
-        pokemon.setFont(new java.awt.Font("Roboto Black", 3, 12)); // NOI18N
-        pokemon.setText("jLabel2");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.ipadx = 116;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(12, 19, 0, 0);
-        jPanel3.add(pokemon, gridBagConstraints);
-
-        vida.setFont(new java.awt.Font("Roboto Black", 3, 12)); // NOI18N
-        vida.setText("jLabel3");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.ipadx = 70;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(12, 6, 0, 0);
-        jPanel3.add(vida, gridBagConstraints);
-
-        entrenador.setFont(new java.awt.Font("Roboto SemiCondensed ExtraBold", 1, 12)); // NOI18N
-        entrenador.setText("jLabel2");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.ipadx = 117;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(8, 19, 0, 0);
-        jPanel3.add(entrenador, gridBagConstraints);
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        GroupLayout jPanel2Layout = new GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
-                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 720, Short.MAX_VALUE)
+                jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 3, Short.MAX_VALUE))
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(26, 26, 26)
+                                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                        .addComponent(entrenador1)
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                                        .addComponent(ataque1_3)
+                                                        .addComponent(ataque1_1)
+                                                        .addComponent(pokemon1))
+                                                .addGap(40, 40, 40)
+                                                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                                        .addComponent(vida1, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE)
+                                                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                                                                .addComponent(ataque1_2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                .addComponent(ataque1_4, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jPanel3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addGap(26, 26, 26)
+                                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                                        .addComponent(ataque2_1, GroupLayout.PREFERRED_SIZE, 109, GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(ataque2_3)
+                                                        .addComponent(pokemo2))
+                                                .addGap(35, 35, 35)
+                                                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                                        .addComponent(ataque2_4)
+                                                        .addComponent(ataque2_2)
+                                                        .addComponent(vida2)))
+                                        .addComponent(entrenador2))
+                                .addGap(34, 34, 34))
         );
         jPanel2Layout.setVerticalGroup(
-                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                                                .addGap(18, 18, 18)
+                                                                .addComponent(entrenador1))
+                                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                                                .addGap(18, 18, 18)
+                                                                .addComponent(entrenador2)))
+                                                .addGap(18, 18, 18)
+                                                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                                                .addComponent(pokemon1)
+                                                                .addComponent(vida1))
+                                                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                                                .addComponent(pokemo2)
+                                                                .addComponent(vida2)))
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                                                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                                                        .addComponent(ataque1_1)
+                                                                        .addComponent(ataque1_2))
+                                                                .addGap(18, 18, 18)
+                                                                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                                                        .addComponent(ataque1_3)
+                                                                        .addComponent(ataque1_4)))
+                                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                                                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                                                        .addComponent(ataque2_2)
+                                                                        .addComponent(ataque2_1))
+                                                                .addGap(18, 18, 18)
+                                                                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                                                        .addComponent(ataque2_3)
+                                                                        .addComponent(ataque2_4))))
+                                                .addGap(0, 6, Short.MAX_VALUE))
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(jPanel3, GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)))
+                                .addContainerGap())
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>
 
-    private void ataque4MouseExited(java.awt.event.MouseEvent evt) {
+    private void ataque2_4MouseExited(MouseEvent evt) {
         // TODO add your handling code here:
-        ataque4.setBackground(Color.white);
+        ataque2_4.setBackground(Color.white);
     }
 
-    private void ataque4MouseEntered(java.awt.event.MouseEvent evt) {
+    private void ataque2_4MouseEntered(MouseEvent evt) {
         // TODO add your handling code here:
-        ataque4.setBackground(new Color (7, 155, 219));
+        ataque2_4.setBackground(new Color (7, 155, 219));
     }
 
-    private void ataque3MouseExited(java.awt.event.MouseEvent evt) {
+    private void ataque2_3MouseExited(MouseEvent evt) {
         // TODO add your handling code here:
-        ataque3.setBackground(Color.white);
+        ataque2_3.setBackground(Color.white);
     }
 
-    private void ataque3MouseEntered(java.awt.event.MouseEvent evt) {
+    private void ataque2_3MouseEntered(MouseEvent evt) {
         // TODO add your handling code here:
-        ataque3.setBackground(new Color (7, 155, 219));
+        ataque2_3.setBackground(new Color (7, 155, 219));
     }
 
-    private void ataque2MouseExited(java.awt.event.MouseEvent evt) {
+    private void ataque2_2ActionPerformed(ActionEvent evt) {
         // TODO add your handling code here:
-        ataque2.setBackground(Color.white);
     }
 
-    private void ataque2MouseEntered(java.awt.event.MouseEvent evt) {
+    private void ataque2_2MouseExited(MouseEvent evt) {
         // TODO add your handling code here:
-        ataque2.setBackground(new Color (7, 155, 219));
+        ataque2_2.setBackground(Color.white);
     }
 
-    private void ataque1MouseExited(java.awt.event.MouseEvent evt) {
+    private void ataque2_2MouseEntered(MouseEvent evt) {
         // TODO add your handling code here:
-        ataque1.setBackground(Color.white);
+        ataque2_2.setBackground(new Color (7, 155, 219));
     }
 
-    private void ataque1MouseEntered(java.awt.event.MouseEvent evt) {
+    private void ataque2_1MouseExited(MouseEvent evt) {
         // TODO add your handling code here:
-        ataque1.setBackground(new Color (7, 155, 219));
+        ataque2_1.setBackground(Color.white);
+    }
+
+    private void ataque2_1MouseEntered(MouseEvent evt) {
+        // TODO add your handling code here:
+        ataque2_1.setBackground(new Color (7, 155, 219));
+    }
+
+    private void ataque1_4MouseExited(MouseEvent evt) {
+        // TODO add your handling code here:
+        ataque1_4.setBackground(Color.white);
+    }
+
+    private void ataque1_4MouseEntered(MouseEvent evt) {
+        // TODO add your handling code here:
+        ataque1_4.setBackground(new Color (7, 155, 219));
+    }
+
+    private void ataque1_3MouseExited(MouseEvent evt) {
+        // TODO add your handling code here:
+        ataque1_3.setBackground(Color.white);
+    }
+
+    private void ataque1_3MouseEntered(MouseEvent evt) {
+        // TODO add your handling code here:
+        ataque1_3.setBackground(new Color (7, 155, 219));
+    }
+
+    private void ataque1_1MouseExited(MouseEvent evt) {
+        // TODO add your handling code here:
+        ataque1_1.setBackground(Color.white);
+    }
+
+    private void ataque1_1MouseEntered(MouseEvent evt) {
+        // TODO add your handling code here:
+        ataque1_1.setBackground(new Color (7, 155, 219));
+    }
+
+    private void ataque1_2ActionPerformed(ActionEvent evt) {
+        // TODO add your handling code here:
+    }
+
+    private void ataque1_2MouseExited(MouseEvent evt) {
+        // TODO add your handling code here:
+        ataque1_2.setBackground(Color.white);
+    }
+
+    private void ataque1_2MouseEntered(MouseEvent evt) {
+        // TODO add your handling code here:
+        ataque1_2.setBackground(new Color (7, 155, 219));
     }
 
 
@@ -271,7 +448,7 @@ public class Battle extends javax.swing.JFrame {
         new SwingWorker<ImageIcon, Void>() {
             @Override
             protected ImageIcon doInBackground() throws Exception {
-                String urlImagen = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/6.png"; // Pikachu
+                String urlImagen = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/"+ pokemonsBattle[0]+ ".png"; // Pikachu
                 Image imagen = ImageIO.read(new URL(urlImagen));
                 return new ImageIcon(imagen);
             }
@@ -298,7 +475,7 @@ public class Battle extends javax.swing.JFrame {
         new SwingWorker<ImageIcon, Void>() {
             @Override
             protected ImageIcon doInBackground() throws Exception {
-                String urlImagen = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/5.png"; // Charizard
+                String urlImagen = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"+pokemonsBattle[1]+ ".png";
                 Image imagen = ImageIO.read(new URL(urlImagen));
                 return new ImageIcon(imagen);
             }
@@ -308,13 +485,13 @@ public class Battle extends javax.swing.JFrame {
                 try {
                     ImageIcon icon = get();
                     Image imagenEscalada = icon.getImage().getScaledInstance(
-                            pokemon2.getWidth() > 0 ? pokemon2.getWidth() : 80,
-                            pokemon2.getHeight() > 0 ? pokemon2.getHeight() : 80,
+                            ImageUrl2.getWidth() > 0 ? ImageUrl2.getWidth() : 80,
+                            ImageUrl2.getHeight() > 0 ? ImageUrl2.getHeight() : 80,
                             Image.SCALE_SMOOTH);
-                    pokemon2.setIcon(new ImageIcon(imagenEscalada));
-                    pokemon2.setText("");
+                    ImageUrl2.setIcon(new ImageIcon(imagenEscalada));
+                    ImageUrl2.setText("");
                 } catch (Exception e) {
-                    pokemon2.setText("Error al cargar");
+                    ImageUrl2.setText("Error al cargar");
                     e.printStackTrace();
                 }
             }
@@ -330,25 +507,25 @@ public class Battle extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Battle.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            Logger.getLogger(Battle.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Battle.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            Logger.getLogger(Battle.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Battle.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Battle.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            Logger.getLogger(Battle.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(Battle.class.getName()).log(Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
+        EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Battle().setVisible(true);
             }
@@ -356,18 +533,25 @@ public class Battle extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify
-    private javax.swing.JToggleButton ataque1;
-    private javax.swing.JToggleButton ataque2;
-    private javax.swing.JToggleButton ataque3;
-    private javax.swing.JToggleButton ataque4;
-    private javax.swing.JLabel entrenador;
-    private javax.swing.JLabel imageUrl;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JLabel pokemon;
-    private javax.swing.JLabel pokemon2;
-    private javax.swing.JLabel vida;
+    private JLabel ImageUrl2;
+    private JToggleButton ataque1_1;
+    private JToggleButton ataque1_2;
+    private JToggleButton ataque1_3;
+    private JToggleButton ataque1_4;
+    private JToggleButton ataque2_1;
+    private JToggleButton ataque2_2;
+    private JToggleButton ataque2_3;
+    private JToggleButton ataque2_4;
+    private JLabel entrenador1;
+    private JLabel entrenador2;
+    private JLabel imageUrl;
+    private JPanel jPanel1;
+    private JPanel jPanel2;
+    private JPanel jPanel3;
+    private JLabel pokemo2;
+    private JLabel pokemon1;
+    private JLabel vida1;
+    private JLabel vida2;
     // End of variables declaration
 
     class FondoPanel extends JPanel{
