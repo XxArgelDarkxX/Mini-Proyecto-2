@@ -1,13 +1,8 @@
-import Data.Pokemons;
-import Interfaces.pokemones;
-import Interfaces.Usuario;
-import Interfaces.agregar_entrenador;
-import Pokemon.Pokemon;
-import java.util.ArrayList;
+import Interfaces.User;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        Usuario pokemon = new Usuario();
+        User pokemon = new User();
         pokemon.setVisible(true);
     }
 }

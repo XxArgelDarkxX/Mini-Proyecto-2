@@ -4,7 +4,7 @@ import Movement.Movement;
 import Pokemon.Pokemon;
 import java.util.ArrayList;
 
-public class Pokemons {
+public class Data {
     private static final ArrayList<Movement> fireMoves = new ArrayList<>();
     private static final ArrayList<Movement> waterMoves = new ArrayList<>();
     private static final ArrayList<Movement> grassMoves = new ArrayList<>();
