@@ -9,6 +9,9 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.BasicStroke;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,6 +22,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
+import javax.swing.Timer;
+import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -33,7 +38,6 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 
 import Entrenador.Trainer;
-import Movement.Movement;
 import Pokemon.Pokemon;
 import javax.swing.JSeparator;
 
@@ -49,6 +53,85 @@ public class Battle extends JFrame {
     public byte moveTrainer2 = -1;
     public byte x = 0;
     public byte y = 0;
+    class PokemonHealthBar extends JPanel {
+        private float currentHP;
+        private final float maxHP;
+        private float targetHP;
+        private JLabel hpLabel;
+        private Timer animationTimer;
+        private static final int ANIMATION_DELAY = 50;
+    
+        public PokemonHealthBar(float maxHP, JLabel hpLabel) {
+            this.maxHP = maxHP;
+            this.currentHP = maxHP;
+            this.targetHP = maxHP;
+            this.hpLabel = hpLabel;
+            setPreferredSize(new Dimension(150, 8));
+            setOpaque(false);
+    
+            // Configurar el timer para la animación
+            animationTimer = new Timer(ANIMATION_DELAY, e -> {
+                if (currentHP > targetHP) {
+                    currentHP = Math.max(targetHP, currentHP - 1);
+                    updateHPLabel();
+                    repaint();
+                    if (currentHP == targetHP) {
+                        animationTimer.stop();
+                    }
+                }
+            });
+        }
+    
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            Graphics2D g2d = (Graphics2D) g.create();
+            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+    
+            int width = getWidth();
+            int height = getHeight();
+            int arc = height; // Para hacer los bordes completamente redondeados
+    
+            // Fondo negro
+            g2d.setColor(new Color(48, 48, 48));
+            g2d.fillRoundRect(0, 0, width, height, arc, arc);
+    
+            // Barra de vida
+            float hpPercentage = currentHP / maxHP;
+            int barWidth = (int) (width * hpPercentage);
+    
+            // Color basado en el porcentaje de vida
+            Color healthColor;
+            if (hpPercentage > 0.5f) {
+                healthColor = new Color(0, 192, 0); // Verde
+            } else if (hpPercentage > 0.25f) {
+                healthColor = new Color(255, 192, 0); // Amarillo
+            } else {
+                healthColor = new Color(192, 0, 0); // Rojo
+            }
+    
+            g2d.setColor(healthColor);
+            g2d.fillRoundRect(0, 0, barWidth, height, arc, arc);
+    
+            // Borde para mejor visibilidad
+            g2d.setColor(new Color(32, 32, 32));
+            g2d.setStroke(new BasicStroke(1));
+            g2d.drawRoundRect(0, 0, width - 1, height - 1, arc, arc);
+    
+            g2d.dispose();
+        }
+    
+        private void updateHPLabel() {
+            hpLabel.setText(String.valueOf((int)currentHP));
+        }
+    
+        public void setHP(float newHP) {
+            this.targetHP = Math.max(0, Math.min(newHP, maxHP));
+            if (!animationTimer.isRunning()) {
+                animationTimer.start();
+            }
+        }
+    }
     /**
      * Creates new form Battle
      */
@@ -86,16 +169,30 @@ public class Battle extends JFrame {
         attack1_1 = new JToggleButton();
         attack1_3 = new JToggleButton();
         attack1_4 = new JToggleButton();
-        hp1 = new JLabel();
+        maxHpLabel1 = new JLabel();
+        maxHpLabel2 = new JLabel();
+        hpLabel1 = new JLabel();
+        slashLabel1 = new JLabel("/");
+        hpLabel2 = new JLabel();
+        slashLabel2 = new JLabel("/");
+        hpPanel1 = new JPanel();
+        hpPanel2 = new JPanel();
         pokemon1 = new JLabel();
         trainer1 = new JLabel();
         trainer2 = new JLabel();
         pokemon2 = new JLabel();
-        hp2 = new JLabel();
         attack2_1 = new JToggleButton();
         attack2_2 = new JToggleButton();
         attack2_3 = new JToggleButton();
         attack2_4 = new JToggleButton();
+        healthBar1 = new PokemonHealthBar(
+            trainers[0].getPokemonTeam().get(x).getHp(), 
+            hpLabel1
+        );
+        healthBar2 = new PokemonHealthBar(
+            trainers[1].getPokemonTeam().get(y).getHp(), 
+            hpLabel2
+        );
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -106,6 +203,43 @@ public class Battle extends JFrame {
         imageUrl.setText("");
         
         ImageUrl2.setText("");
+
+        hpPanel1.setLayout(null);
+        hpPanel1.setBackground(new Color(255, 255, 255));
+        hpPanel1.setBorder(BorderFactory.createLineBorder(Color.GRAY, 7, true));
+        hpPanel1.setBounds(510, 270, 130, 80);
+
+        pokemon1.setBounds(10, 10, 100, 20);
+        slashLabel1.setBounds(80, 35, 10, 20);
+        hpLabel1.setBounds(50, 35, 40, 20);
+        maxHpLabel1.setBounds(90, 35, 40, 20);
+        healthBar1.setBounds(10, 53, 110, 11);
+
+        hpPanel1.add(pokemon1);
+        hpPanel1.add(hpLabel1);
+        hpPanel1.add(maxHpLabel1);
+        hpPanel1.add(healthBar1);
+        hpPanel1.add(slashLabel1);
+
+        hpPanel2.setLayout(null);
+        hpPanel2.setBackground(new Color(255, 255, 255));
+        hpPanel2.setBorder(BorderFactory.createLineBorder(Color.GRAY, 7, true));
+        hpPanel2.setBounds(40, 30, 130, 80);
+
+        pokemon2.setBounds(10, 10, 100, 20);
+        hpLabel2.setBounds(50, 35, 40, 20);
+        slashLabel2.setBounds(80, 35, 10, 20);
+        maxHpLabel2.setBounds(90, 35, 40, 20);
+        healthBar2.setBounds(10, 53, 110, 11);
+
+        hpPanel2.add(pokemon2);
+        hpPanel2.add(hpLabel2);
+        hpPanel2.add(maxHpLabel2);
+        hpPanel2.add(healthBar2);
+        hpPanel2.add(slashLabel2);
+
+        jPanel2.add(hpPanel1);
+        jPanel2.add(hpPanel2);
 
         createStylizedBorder(10, 369, 652, 5, true, false, false, false);  // Borde superior
         createStylizedBorder(10, 369, 5, 369, false, false, false, false); // Borde izquierdo
@@ -219,8 +353,13 @@ public class Battle extends JFrame {
             }
         });
         
-        hp1.setFont(new Font("Roboto Black", 3, 12)); // NOI18N
-        hp1.setText(String.valueOf(trainers[0].getPokemonTeam().get(x).getHp()));
+        hpLabel1.setFont(new Font("Roboto Black", 3, 12)); // NOI18N
+        hpLabel1.setText(String.valueOf(trainers[0].getPokemonTeam().get(x).getHp()));
+
+        slashLabel1.setFont(new Font("Roboto Black", 3, 12)); // NOI18N
+
+        maxHpLabel1.setFont(new Font("Roboto Black", 3, 12)); // NOI18N
+        maxHpLabel1.setText(String.valueOf(trainers[0].getPokemonTeam().get(x).getHp()));
         
         pokemon1.setFont(new Font("Roboto Black", 3, 12)); // NOI18N
         pokemon1.setText(trainers[0].getPokemonTeam().get(x).getName());
@@ -234,8 +373,13 @@ public class Battle extends JFrame {
         pokemon2.setFont(new Font("Roboto Black", 3, 12)); // NOI18N
         pokemon2.setText(trainers[1].getPokemonTeam().get(y).getName());
         
-        hp2.setFont(new Font("Roboto Black", 3, 12)); // NOI18N
-        hp2.setText(String.valueOf(trainers[1].getPokemonTeam().get(y).getHp()));
+        hpLabel2.setFont(new Font("Roboto Black", 3, 12)); // NOI18N
+        hpLabel2.setText(String.valueOf(trainers[1].getPokemonTeam().get(y).getHp()));
+
+        slashLabel2.setFont(new Font("Roboto Black", 3, 12)); // NOI18N
+
+        maxHpLabel2.setFont(new Font("Roboto Black", 3, 12)); // NOI18N
+        maxHpLabel2.setText(String.valueOf(trainers[1].getPokemonTeam().get(y).getHp()));
         
         attack2_1.setBackground(new Color(255, 255, 255));
         attack2_1.setFont(new Font("Roboto", 2, 15)); // NOI18N
@@ -306,87 +450,69 @@ public class Battle extends JFrame {
                 attack2_4ActionPerformed(evt);
             }
         });
+
+
         
         GroupLayout jPanel2Layout = new GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-            .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-            .addGap(0, 3, Short.MAX_VALUE))
-                .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
+                .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 3, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addComponent(trainer1)  // Añadido trainer1 aquí
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                .addComponent(trainer1)
-                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                .addComponent(attack1_3, 120, 120, 120)
-                                .addComponent(attack1_1, 120, 120, 120)
-                                .addComponent(pokemon1))
-                                .addGap(40, 40, 40)
-                                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                .addComponent(hp1, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE)
-                                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                                .addComponent(attack1_2, 120, 120,120)
-                                .addComponent(attack1_4, 120, 120,120)))))
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                .addComponent(attack2_1, 120, 120, 120)
-                                .addComponent(attack2_3, 120, 120, 120)
-                                .addComponent(pokemon2))
-                                .addGap(35, 35, 35)
-                                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                .addComponent(attack2_4, 120, 120, 120)
-                                .addComponent(attack2_2, 120, 120, 120)
-                                .addComponent(hp2)))
-                                .addComponent(trainer2))
-                                .addGap(34, 34, 34))
-                                );
-                                jPanel2Layout.setVerticalGroup(
-                                    jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addGap(18, 18, 18)
-                                    .addComponent(trainer1))
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addGap(18, 18, 18)
-                                    .addComponent(trainer2)))
-                                    .addGap(18, 18, 18)
-                                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                        .addComponent(pokemon1)
-                                        .addComponent(hp1))
-                                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                        .addComponent(pokemon2)
-                                        .addComponent(hp2)))
-                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                        .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                        .addComponent(attack1_1)
-                                        .addComponent(attack1_2))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                        .addComponent(attack1_3)
-                                        .addComponent(attack1_4)))
-                                        .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                        .addComponent(attack2_2)
-                                        .addComponent(attack2_1))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                        .addComponent(attack2_3)
-                                        .addComponent(attack2_4))))
-                                        .addGap(0, 6, Short.MAX_VALUE))
-                                        .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)))
-                                        .addContainerGap())
+                            .addComponent(attack1_3, 120, 120, 120)
+                            .addComponent(attack1_1, 120, 120, 120))
+                        .addGap(40, 40, 40)
+                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                            .addComponent(attack1_2, 120, 120, 120)
+                            .addComponent(attack1_4, 120, 120, 120))))
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addComponent(trainer2)  // Añadido trainer2 aquí
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                            .addComponent(attack2_1, 120, 120, 120)
+                            .addComponent(attack2_3, 120, 120, 120))
+                        .addGap(35, 35, 35)
+                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                            .addComponent(attack2_4, 120, 120, 120)
+                            .addComponent(attack2_2, 120, 120, 120))))
+                .addGap(34, 34, 34))
+        );
+
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(trainer1)
+                    .addComponent(trainer2))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                            .addComponent(attack1_1)
+                            .addComponent(attack1_2))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                            .addComponent(attack1_3)
+                            .addComponent(attack1_4)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                            .addComponent(attack2_1)
+                            .addComponent(attack2_2))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                            .addComponent(attack2_3)
+                            .addComponent(attack2_4))))
+                .addContainerGap())
         );
         
         GroupLayout layout = new GroupLayout(getContentPane());
@@ -554,6 +680,15 @@ public class Battle extends JFrame {
                 attack1_4.setVisible(true);
                 pokemonsBattle[0] = trainers[0].getPokemonTeam().get(x).getPokedexId();
                 updatePokemonInfo();
+                hpPanel1.remove(healthBar1);
+                healthBar1 = new PokemonHealthBar(
+                    trainers[0].getPokemonTeam().get(x).getHp(),
+                    hpLabel1
+                );
+                healthBar1.setBounds(10, 53, 110, 11);
+                hpPanel1.add(healthBar1);
+                hpPanel1.revalidate();
+                hpPanel1.repaint();
                 loadPokemonImage();
                 enableTrainer1Attacks();
             }
@@ -567,6 +702,15 @@ public class Battle extends JFrame {
                 attack2_4.setVisible(true);
                 pokemonsBattle[1] = trainers[1].getPokemonTeam().get(y).getPokedexId();
                 updatePokemonInfo();
+                hpPanel2.remove(healthBar2);
+                healthBar2 = new PokemonHealthBar(
+                    trainers[1].getPokemonTeam().get(y).getHp(),
+                    hpLabel2
+                );
+                healthBar2.setBounds(10, 53, 110, 11);
+                hpPanel2.add(healthBar2);
+                hpPanel2.revalidate();
+                hpPanel2.repaint();
                 loadPokemonImage2();
                 enableTrainer2Attacks();
             }
@@ -577,8 +721,10 @@ public class Battle extends JFrame {
     private void updatePokemonInfo() {
         pokemon1.setText(trainers[0].getPokemonTeam().get(x).getName());
         pokemon2.setText(trainers[1].getPokemonTeam().get(y).getName());
-        hp1.setText(String.valueOf(trainers[0].getPokemonTeam().get(x).getHp()));
-        hp2.setText(String.valueOf(trainers[1].getPokemonTeam().get(y).getHp()));
+        hpLabel1.setText(String.valueOf(trainers[0].getPokemonTeam().get(x).getHp()));
+        hpLabel2.setText(String.valueOf(trainers[1].getPokemonTeam().get(y).getHp()));
+        maxHpLabel1.setText(String.valueOf(trainers[0].getPokemonTeam().get(x).getHp()));
+        maxHpLabel2.setText(String.valueOf(trainers[1].getPokemonTeam().get(y).getHp()));
         
         // Actualizar textos de los botones de ataque
         attack1_1.setText(trainers[0].getPokemonTeam().get(x).getMoves().get(0).getName());
@@ -603,8 +749,8 @@ public class Battle extends JFrame {
         attack2_2.setVisible(false);
         attack2_3.setVisible(false);
         attack2_4.setVisible(false);
-        hp1.setVisible(false);
-        hp2.setVisible(false);
+        hpLabel1.setVisible(false);
+        hpLabel2.setVisible(false);
         centralBaseBorder.setVisible(false);
         centralMiddleBorder.setVisible(false);
         centralLightBorder.setVisible(false);
@@ -967,7 +1113,8 @@ public class Battle extends JFrame {
             // Actualiza la hp del Pokemon 2 y verifica si murió
             if (_pokemon2.getHp() <= 0) {
                 _pokemon2.setHp((short)0);
-                hp2.setText("0");
+                healthBar2.setHP(0);
+                hpLabel2.setText("0");
                 ImageUrl2.setIcon(null);
                 disableTrainer2Attacks();
                 attack2_1.setVisible(false);
@@ -979,12 +1126,14 @@ public class Battle extends JFrame {
                 checkBattleState();
                 enableTrainer1Attacks();
             } else {
-                hp2.setText(String.valueOf(_pokemon2.getHp()));
+                healthBar2.setHP(_pokemon2.getHp());
+                hpLabel2.setText(String.valueOf(_pokemon2.getHp()));
                 _pokemon2.movement(_pokemon1, moveTrainer2);
                 
                 if (_pokemon1.getHp() <= 0) {
                     _pokemon1.setHp((short)0);
-                    hp1.setText("0");
+                    healthBar1.setHP(0);
+                    hpLabel1.setText("0");
                     imageUrl.setIcon(null);
                     disableTrainer1Attacks();
                     attack1_1.setVisible(false);
@@ -996,7 +1145,8 @@ public class Battle extends JFrame {
                     checkBattleState();
                     enableTrainer2Attacks();
                 } else {
-                    hp1.setText(String.valueOf(_pokemon1.getHp()));
+                    healthBar1.setHP(_pokemon1.getHp());
+                    hpLabel1.setText(String.valueOf(_pokemon1.getHp()));
                     enableTrainer1Attacks();
                     enableTrainer2Attacks();
                 }
@@ -1008,7 +1158,8 @@ public class Battle extends JFrame {
             // Actualiza la hp del Pokemon 1 y verifica si murió
             if (_pokemon1.getHp() <= 0) {
                 _pokemon1.setHp((short)0);
-                hp1.setText("0");
+                healthBar1.setHP(0);
+                hpLabel1.setText("0");
                 imageUrl.setIcon(null);
                 disableTrainer1Attacks();
                 attack1_1.setVisible(false);
@@ -1020,12 +1171,14 @@ public class Battle extends JFrame {
                 checkBattleState();
                 enableTrainer2Attacks();
             } else {
-                hp1.setText(String.valueOf(_pokemon1.getHp()));
+                healthBar1.setHP(_pokemon1.getHp());
+                hpLabel1.setText(String.valueOf(_pokemon1.getHp()));
                 _pokemon1.movement(_pokemon2, moveTrainer1);
 
                 if (_pokemon2.getHp() <= 0) {
                     _pokemon2.setHp((short)0);
-                    hp2.setText("0");
+                    healthBar2.setHP(0);
+                    hpLabel2.setText("0");
                     ImageUrl2.setIcon(null);
                     disableTrainer2Attacks();
                     attack2_1.setVisible(false);
@@ -1037,7 +1190,8 @@ public class Battle extends JFrame {
                     checkBattleState();
                     enableTrainer1Attacks();
                 } else {
-                    hp2.setText(String.valueOf(_pokemon2.getHp()));
+                    healthBar2.setHP(_pokemon2.getHp());
+                    hpLabel2.setText(String.valueOf(_pokemon2.getHp()));
                     enableTrainer2Attacks();
                     enableTrainer1Attacks();
                 }
@@ -1105,14 +1259,22 @@ public class Battle extends JFrame {
     private JSeparator centralLightBorder;
     private JLabel pokemon2;
     private JLabel pokemon1;
-    private JLabel hp1;
-    private JLabel hp2;
+    private JLabel maxHpLabel1;
+    private JLabel maxHpLabel2;
+    private JLabel hpLabel1;
+    private JLabel hpLabel2;
+    private JPanel hpPanel1;
+    private JPanel hpPanel2;
     private JPanel pokemonSelectionPanel1;
     private JPanel pokemonSelectionPanel2;
     private JPanel victoryPanel;
     private JButton[] pokemonButtons1;
     private JButton[] pokemonButtons2;
     private JLabel victoryLabel;
+    private JLabel slashLabel1;
+    private JLabel slashLabel2;
+    private PokemonHealthBar healthBar1;
+    private PokemonHealthBar healthBar2;
     // End of variables declaration
 
     class BackgroundPanel extends JPanel{
