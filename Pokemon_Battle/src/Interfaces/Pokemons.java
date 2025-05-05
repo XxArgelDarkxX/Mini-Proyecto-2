@@ -4,11 +4,19 @@
  */
 package Interfaces;
 import Entrenador.Trainer;
-import Pokemon.Pokemon;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
+
 import java.awt.Color;
-import java.util.ArrayList;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.InputStream;
+
 
 /**
  *
@@ -16,6 +24,33 @@ import java.util.ArrayList;
  */
 public class Pokemons extends javax.swing.JFrame {
 
+    private Clip musicaFondo; // Variable para controlar la música
+
+    // Método para iniciar la música de fondo
+    private void iniciarMusicaFondo() {
+        try {
+            // Carga el archivo de música desde recursos
+            InputStream audioSrc = getClass().getResourceAsStream("Pokemon-RubySapphireEmerald-Pokemon-Center.wav");
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(new BufferedInputStream(audioSrc));
+            
+            musicaFondo = AudioSystem.getClip();
+            musicaFondo.open(audioStream);
+            musicaFondo.loop(Clip.LOOP_CONTINUOUSLY); // Repite continuamente
+            
+        } catch (Exception e) {
+            System.out.println("Error al cargar música: " + e.getMessage());
+        }
+    }
+
+    // Método para detener la música al cerrar la ventana
+    private void detenerMusicaFondo() {
+        if (musicaFondo != null && musicaFondo.isRunning()) {
+            musicaFondo.stop();
+            musicaFondo.close();
+        }
+    }
+
+    private Clip clip;
     private  Trainer[] trainers;
     String[] pokemonsBattle = new String[2];
 
@@ -25,10 +60,13 @@ public class Pokemons extends javax.swing.JFrame {
      */
     public Pokemons() {
         initComponents();
+        iniciarMusicaFondo();
     }
+
     public Pokemons(Trainer[] trainers) {
         this.trainers = trainers;
         initComponents();
+        iniciarMusicaFondo();
         // Puedes usar los trainers
     }
 
@@ -79,7 +117,7 @@ public class Pokemons extends javax.swing.JFrame {
                         {trainers[0].getPokemonTeam().get(2).getPokedexId() ,trainers[0].getPokemonTeam().get(2).getName(), trainers[0].getPokemonTeam().get(2).getType(), trainers[0].getPokemonTeam().get(2).getHp()}
                 },
                 new String [] {
-                        "ID", "Pokemon", "Elemento", "vida"
+                        "ID", "Pokemon", "Elemento", "Vida"
                 }
         ){public boolean isCellEditable(int row, int column) {
             return false;
@@ -96,7 +134,7 @@ public class Pokemons extends javax.swing.JFrame {
                         {trainers[1].getPokemonTeam().get(2).getPokedexId() ,trainers[1].getPokemonTeam().get(2).getName(), trainers[1].getPokemonTeam().get(2).getType(), trainers[1].getPokemonTeam().get(2).getHp()}
                 },
                 new String [] {
-                        "ID", "Pokemon", "Elemento", "vida"
+                        "ID", "Pokemon", "Elemento", "Vida"
                 }
         ){public boolean isCellEditable(int row, int column) {
             return false;
@@ -107,7 +145,7 @@ public class Pokemons extends javax.swing.JFrame {
 
         battle.setBackground(new java.awt.Color(255, 255, 255));
         battle.setFont(new java.awt.Font("Roboto", 2, 14)); // NOI18N
-        battle.setForeground(new java.awt.Color(0, 0, 0));
+        battle.setForeground(new java.awt.Color(50, 50, 50));
         battle.setText("A LUCHAR!");
         battle.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -119,9 +157,18 @@ public class Pokemons extends javax.swing.JFrame {
         });
         battle.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
+                
                 battleActionPerformed(evt);
             }
         });
+
+        battle.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                reproducirMusica();
+            }
+        });
+
+        
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -148,7 +195,7 @@ public class Pokemons extends javax.swing.JFrame {
         });
 
         choose1.setFont(new java.awt.Font("Roboto Black", 2, 12)); // NOI18N
-        choose1.setText("Elegir el primer pokemone:");
+        choose1.setText("Elegir el primer pokemon:");
 
         chooseText2.setText("");
         chooseText2.addActionListener(new java.awt.event.ActionListener() {
@@ -158,7 +205,7 @@ public class Pokemons extends javax.swing.JFrame {
         });
 
         choose2.setFont(new java.awt.Font("Roboto Black", 2, 12)); // NOI18N
-        choose2.setText("Elegir el primer pokemone:");
+        choose2.setText("Elegir el primer pokemon:");
 
         trainer1.setFont(new java.awt.Font("Roboto Condensed", 3, 12)); // NOI18N
         trainer1.setText("Entrenador: " + trainers[0].getName());
@@ -187,10 +234,10 @@ public class Pokemons extends javax.swing.JFrame {
                                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                         .addGroup(jPanel1Layout.createSequentialGroup()
                                                                 .addGap(163, 163, 163)
-                                                                .addComponent(trainer1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                .addComponent(trainer1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                         .addGroup(jPanel1Layout.createSequentialGroup()
                                                                 .addGap(166, 166, 166)
-                                                                .addComponent(trainer2, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                .addComponent(trainer2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                         .addGroup(jPanel1Layout.createSequentialGroup()
                                                                 .addGap(62, 62, 62)
                                                                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -280,15 +327,29 @@ public class Pokemons extends javax.swing.JFrame {
         if(pokemon1.equals("") && pokemon2.equals("")){
             JOptionPane.showMessageDialog(null, "Debe seleccionar un pokemon");
         } else if (!(trainers[0].getPokemonTeam().get(0).getPokedexId().equals(pokemon1) ||trainers[0].getPokemonTeam().get(1).getPokedexId().equals(pokemon1) || trainers[0].getPokemonTeam().get(2).getPokedexId().equals(pokemon1))) {
-            JOptionPane.showMessageDialog(null, "esta mal el id del pokemon 1");
+            JOptionPane.showMessageDialog(null, "Esta mal el id del pokemon 1");
         }else if(!(trainers[1].getPokemonTeam().get(0).getPokedexId().equals(pokemon2) ||trainers[1].getPokemonTeam().get(1).getPokedexId().equals(pokemon2) || trainers[1].getPokemonTeam().get(2).getPokedexId().equals(pokemon2))){
-            JOptionPane.showMessageDialog(null, "esta mal el id del pokemon 2");
+            JOptionPane.showMessageDialog(null, "Esta mal el id del pokemon 2");
         }else {
+
+            detenerMusicaFondo(); // Detener la música de fondo
             this.dispose();
             Battle battles = new Battle(trainers, pokemonsBattle);
             battles.setVisible(true);
         }
 
+    }
+
+    private void reproducirMusica() {
+        try {
+            File archivo = new File("Pokemon_Battle\\src\\Interfaces\\Pokémon-Black-_-White-Elite-Four-Battle-Music-_HQ_.wav");
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(archivo);
+            clip = AudioSystem.getClip();
+            clip.open(audioStream);
+            clip.loop(Clip.LOOP_CONTINUOUSLY); // Repetir infinitamente
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al reproducir el audio: " + e.getMessage());
+        }
     }
 
     /**

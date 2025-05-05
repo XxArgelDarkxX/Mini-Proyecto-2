@@ -56,6 +56,7 @@ public class Pokemon {
         this.specialDefense = calculateStats(baseSpecialDefense, level);
         this.speed = calculateStats(baseSpeed, level);
         this.moves = moves;
+
         this.frontSprite = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + pokedexId + ".png";
         this.backSprite = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/" + pokedexId + ".png";
         this.icon = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-vii/icons/" + pokedexId + ".png";
@@ -195,4 +196,6 @@ public class Pokemon {
         : target.getSpecialDefense(); // Se obtiene la defensa del Pokemon defensor.
         target.setHp((short) (target.getHp() - (((currentAttack/currentDefense) * move.getPower()) * effectiveness + 2))); // Se resta la vida del Pokemon objetivo.
     }
+
+
 }

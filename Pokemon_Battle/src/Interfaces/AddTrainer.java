@@ -3,16 +3,49 @@ import Data.Data;
 import Entrenador.Trainer;
 import Pokemon.Pokemon;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.Color;
+import java.io.BufferedInputStream;
+import java.io.InputStream;
 
 public class AddTrainer extends javax.swing.JFrame {
+
+    private Clip musicaFondo; // Variable para controlar la música
+
+    // Método para iniciar la música de fondo
+    private void iniciarMusicaFondo() {
+        try {
+            // Carga el archivo de música desde recursos
+            InputStream audioSrc = getClass().getResourceAsStream("Pokemon-RubySapphireEmerald-Pokemon-Center.wav");
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(new BufferedInputStream(audioSrc));
+            
+            musicaFondo = AudioSystem.getClip();
+            musicaFondo.open(audioStream);
+            musicaFondo.loop(Clip.LOOP_CONTINUOUSLY); // Repite continuamente
+            
+        } catch (Exception e) {
+            System.out.println("Error al cargar música: " + e.getMessage());
+        }
+    }
+
+    // Método para detener la música al cerrar la ventana
+    private void detenerMusicaFondo() {
+        if (musicaFondo != null && musicaFondo.isRunning()) {
+            musicaFondo.stop();
+            musicaFondo.close();
+        }
+    }
+
     Trainer[] trainers = new Trainer[2];
     Data data = new Data();
     Pokemon pokemon = new Pokemon();
 
     public AddTrainer() {
         initComponents();
+        iniciarMusicaFondo();
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
@@ -35,13 +68,13 @@ public class AddTrainer extends javax.swing.JFrame {
 
         title.setBackground(new java.awt.Color(255, 255, 255));
         title.setFont(new java.awt.Font("Roboto", 2, 18)); // NOI18N
-        title.setForeground(new java.awt.Color(0, 0, 0));
-        title.setText("Agrege los nombre de los entrenadores");
+        title.setForeground(new java.awt.Color(50, 50, 50));
+        title.setText("Agregue los nombres de los entrenadores");
         title.setToolTipText("");
         title.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
-        jTextField1.setForeground(new java.awt.Color(153, 153, 153));
-        jTextField1.setToolTipText("your name");
+        jTextField1.setForeground(new java.awt.Color(50, 50, 50));
+        jTextField1.setToolTipText("Your name");
         jTextField1.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 jTextField1FocusGained(evt);
@@ -73,7 +106,7 @@ public class AddTrainer extends javax.swing.JFrame {
         image.setText("jLabel2");
 
         addButton.setBackground(new java.awt.Color(224, 255, 255));
-        addButton.setForeground(new java.awt.Color(0, 0, 0));
+        addButton.setForeground(new java.awt.Color(50, 50, 50));
         addButton.setText("Agregar");
         addButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -89,8 +122,8 @@ public class AddTrainer extends javax.swing.JFrame {
             }
         });
 
-        trainerBox1.setForeground(new java.awt.Color(153, 153, 153));
-        trainerBox1.setToolTipText("your name");
+        trainerBox1.setForeground(new java.awt.Color(50, 50, 50));
+        trainerBox1.setToolTipText("Your name");
         trainerBox1.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 trainerBox1FocusGained(evt);
@@ -223,7 +256,9 @@ public class AddTrainer extends javax.swing.JFrame {
             trainers[0].setRandomPokemonTeam(data.getPokemons());
             trainers[1].setRandomPokemonTeam(data.getPokemons());
 
-            //se abre la otra ventana de pokemone
+            //se abre la otra ventana de pokemon
+            detenerMusicaFondo(); // Detener la música de fondo
+
             this.dispose();
             Pokemons vista = new Pokemons(trainers);
             vista.setVisible(true);

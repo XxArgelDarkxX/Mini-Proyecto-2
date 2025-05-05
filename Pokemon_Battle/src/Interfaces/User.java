@@ -5,11 +5,45 @@
 
 package Interfaces;
 import java.awt.Color;
+import java.io.BufferedInputStream;
+import java.io.InputStream;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+
 
 public class User extends javax.swing.JFrame {
 
+    private Clip musicaFondo; // Variable para controlar la música
+    
     public User() {
         initComponents();
+        iniciarMusicaFondo(); // Inicia la música al crear la ventana
+    }
+
+    // Método para iniciar la música de fondo
+    private void iniciarMusicaFondo() {
+        try {
+            // Carga el archivo de música desde recursos
+            InputStream audioSrc = getClass().getResourceAsStream("Pokemon-RubySapphireEmerald-Pokemon-Center.wav");
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(new BufferedInputStream(audioSrc));
+            
+            musicaFondo = AudioSystem.getClip();
+            musicaFondo.open(audioStream);
+            musicaFondo.loop(Clip.LOOP_CONTINUOUSLY); // Repite continuamente
+            
+        } catch (Exception e) {
+            System.out.println("Error al cargar música: " + e.getMessage());
+        }
+    }
+
+    // Método para detener la música al cerrar la ventana
+    private void detenerMusicaFondo() {
+        if (musicaFondo != null && musicaFondo.isRunning()) {
+            musicaFondo.stop();
+            musicaFondo.close();
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -40,7 +74,7 @@ public class User extends javax.swing.JFrame {
 
         jLabel1.setText("Bienvenido a Pokemon");
         jPanel1.add(jLabel1);
-        jLabel1.setBounds(50, 30, 130, 30);
+        jLabel1.setBounds(50, 30, 250, 30);
 
         startButton.setBackground(new java.awt.Color(224, 255, 255));
         startButton.setText("PLAY");
@@ -57,6 +91,7 @@ public class User extends javax.swing.JFrame {
                 startButtonActionPerformed(evt);
             }
         });
+
         jPanel1.add(startButton);
         startButton.setBounds(80, 80, 72, 23);
 
@@ -121,6 +156,8 @@ public class User extends javax.swing.JFrame {
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
+        // Detener la música de fondo al cerrar la ventana
+        detenerMusicaFondo();
         this.dispose();
         AddTrainer agregar = new AddTrainer();
         agregar.setVisible(true);
@@ -137,6 +174,10 @@ public class User extends javax.swing.JFrame {
         // TODO add your handling code here:
         startButton.setBackground(new Color (224, 255, 255));
     }
+
+   
+
+   
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -169,6 +210,7 @@ public class User extends javax.swing.JFrame {
             }
         });
     }
+
     // Variables declaration - do not modify
     private javax.swing.JButton startButton;
     private javax.swing.JLabel jLabel1;
