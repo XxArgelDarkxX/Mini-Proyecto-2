@@ -6,9 +6,9 @@
 package Interfaces;
 import java.awt.Color;
 
-public class Usuario extends javax.swing.JFrame {
+public class User extends javax.swing.JFrame {
 
-    public Usuario() {
+    public User() {
         initComponents();
     }
 
@@ -19,11 +19,12 @@ public class Usuario extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        empezar = new javax.swing.JButton();
+        startButton = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jPanel3.setBackground(new java.awt.Color(135, 206, 235));
         jPanel3.addContainerListener(new java.awt.event.ContainerAdapter() {
@@ -41,23 +42,23 @@ public class Usuario extends javax.swing.JFrame {
         jPanel1.add(jLabel1);
         jLabel1.setBounds(50, 30, 130, 30);
 
-        empezar.setBackground(new java.awt.Color(224, 255, 255));
-        empezar.setText("PLAY");
-        empezar.addMouseListener(new java.awt.event.MouseAdapter() {
+        startButton.setBackground(new java.awt.Color(224, 255, 255));
+        startButton.setText("PLAY");
+        startButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                empezarMouseEntered(evt);
+                startButtonMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                empezarMouseExited(evt);
+                startButtonMouseExited(evt);
             }
         });
-        empezar.addActionListener(new java.awt.event.ActionListener() {
+        startButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                empezarActionPerformed(evt);
+                startButtonActionPerformed(evt);
             }
         });
-        jPanel1.add(empezar);
-        empezar.setBounds(80, 80, 72, 23);
+        jPanel1.add(startButton);
+        startButton.setBounds(80, 80, 72, 23);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -118,23 +119,23 @@ public class Usuario extends javax.swing.JFrame {
         // TODO add your handling code here:
     }
 
-    private void empezarActionPerformed(java.awt.event.ActionEvent evt) {
+    private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
         this.dispose();
-        agregar_entrenador agregar = new agregar_entrenador();
+        AddTrainer agregar = new AddTrainer();
         agregar.setVisible(true);
 
 
     }
 
-    private void empezarMouseEntered(java.awt.event.MouseEvent evt) {
+    private void startButtonMouseEntered(java.awt.event.MouseEvent evt) {
         // TODO add your handling code here:
-        empezar.setBackground(new Color (135, 206, 250));
+        startButton.setBackground(new Color (135, 206, 250));
     }
 
-    private void empezarMouseExited(java.awt.event.MouseEvent evt) {
+    private void startButtonMouseExited(java.awt.event.MouseEvent evt) {
         // TODO add your handling code here:
-        empezar.setBackground(new Color (224, 255, 255));
+        startButton.setBackground(new Color (224, 255, 255));
     }
 
     public static void main(String args[]) {
@@ -151,25 +152,25 @@ public class Usuario extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Usuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(User.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Usuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(User.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Usuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(User.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Usuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(User.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Usuario().setVisible(true);
+                new User().setVisible(true);
             }
         });
     }
     // Variables declaration - do not modify
-    private javax.swing.JButton empezar;
+    private javax.swing.JButton startButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

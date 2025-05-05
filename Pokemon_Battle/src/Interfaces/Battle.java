@@ -4,9 +4,12 @@
  */
 package Interfaces;
 
-import Entrenador.Trainer;
-
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -14,8 +17,25 @@ import java.awt.event.MouseEvent;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.imageio.ImageIO;
-import javax.swing.*;
+import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JToggleButton;
+import javax.swing.LayoutStyle;
+import javax.swing.SwingWorker;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.WindowConstants;
+
+import Entrenador.Trainer;
+import Movement.Movement;
+import Pokemon.Pokemon;
+import javax.swing.JSeparator;
 
 /**
  *
@@ -23,25 +43,29 @@ import javax.swing.*;
  */
 public class Battle extends JFrame {
 
-    public  Trainer[] trainers;
+    public Trainer[] trainers;
     public String[] pokemonsBattle;
+    public byte moveTrainer1 = -1;
+    public byte moveTrainer2 = -1;
+    public byte x = 0;
+    public byte y = 0;
     /**
      * Creates new form Battle
      */
-    FondoPanel fondo = new FondoPanel();
+    BackgroundPanel background = new BackgroundPanel();
     public Battle() {
 
         initComponents();
-        cargarImagenPokemon();
-        cargarImagenPokemon2();
+        loadPokemonImage();
+        loadPokemonImage2();
     }
     public Battle(Trainer[] trainers, String[] pokemonsBattle) {
         this.pokemonsBattle = pokemonsBattle;
         this.trainers = trainers;
         initComponents();
-        cargarImagenPokemon();
-        cargarImagenPokemon2();
-        System.out.println(pokemonsBattle[0]+ " "+  pokemonsBattle[1]);
+        initializePokemonSelection();
+        loadPokemonImage();
+        loadPokemonImage2();
     }
 
 
@@ -55,402 +79,829 @@ public class Battle extends JFrame {
     private void initComponents() {
 
         jPanel2 = new JPanel();
-        jPanel1 = new FondoPanel();
+        jPanel1 = new BackgroundPanel();
         imageUrl = new JLabel();
         ImageUrl2 = new JLabel();
-        ataque1_2 = new JToggleButton();
-        ataque1_1 = new JToggleButton();
-        ataque1_3 = new JToggleButton();
-        ataque1_4 = new JToggleButton();
-        vida1 = new JLabel();
+        attack1_2 = new JToggleButton();
+        attack1_1 = new JToggleButton();
+        attack1_3 = new JToggleButton();
+        attack1_4 = new JToggleButton();
+        hp1 = new JLabel();
         pokemon1 = new JLabel();
-        entrenador1 = new JLabel();
-        entrenador2 = new JLabel();
-        pokemo2 = new JLabel();
-        vida2 = new JLabel();
-        ataque2_1 = new JToggleButton();
-        ataque2_2 = new JToggleButton();
-        ataque2_3 = new JToggleButton();
-        ataque2_4 = new JToggleButton();
-        jPanel3 = new JPanel();
+        trainer1 = new JLabel();
+        trainer2 = new JLabel();
+        pokemon2 = new JLabel();
+        hp2 = new JLabel();
+        attack2_1 = new JToggleButton();
+        attack2_2 = new JToggleButton();
+        attack2_3 = new JToggleButton();
+        attack2_4 = new JToggleButton();
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
+        
+        jPanel2.setBackground(new Color(228, 228, 228));
+        jPanel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        
+        imageUrl.setText("");
+        
+        ImageUrl2.setText("");
 
-        jPanel2.setBackground(new Color(132, 224, 223));
-
-        imageUrl.setText("jLabel2");
-
-        ImageUrl2.setText("jLabel3");
+        createStylizedBorder(10, 369, 652, 5, true, false, false, false);  // Borde superior
+        createStylizedBorder(10, 369, 5, 369, false, false, false, false); // Borde izquierdo
+        createStylizedBorder(10, 539, 652, 5, true, false, true, false);  // Borde inferior
+        createStylizedBorder(662, 369, 5, 369, false, false, false, true); // Borde derecho
+        createStylizedBorder(335, 370, 5, 186, false, true, false, false); // Separador central
 
         GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGap(67, 67, 67)
+            .addComponent(imageUrl, GroupLayout.PREFERRED_SIZE, 246, GroupLayout.PREFERRED_SIZE)
+            .addGap(37, 37, 37)
+            .addComponent(ImageUrl2, GroupLayout.PREFERRED_SIZE, 214, GroupLayout.PREFERRED_SIZE)
+            .addContainerGap(71, Short.MAX_VALUE))
+            );
+            jPanel1Layout.setVerticalGroup(
                 jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(67, 67, 67)
-                                .addComponent(imageUrl, GroupLayout.PREFERRED_SIZE, 249, GroupLayout.PREFERRED_SIZE)
-                                .addGap(37, 37, 37)
-                                .addComponent(ImageUrl2, GroupLayout.PREFERRED_SIZE, 213, GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(71, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-                jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addGroup(GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addContainerGap(124, Short.MAX_VALUE)
-                                .addComponent(imageUrl, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
-                                .addGap(37, 37, 37))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(36, 36, 36)
-                                .addComponent(ImageUrl2, GroupLayout.PREFERRED_SIZE, 134, GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        int x=0, y = 0;
-        for(int i = 0; i < trainers[0].getPokemonTeam().size(); i++){
-            if(pokemonsBattle[0] == trainers[0].getPokemonTeam().get(i).getPokedexId()){
-                x = i;
-            }
-        }
-        for(int i = 0; i < trainers[1].getPokemonTeam().size(); i++){
-            if(pokemonsBattle[1] == trainers[1].getPokemonTeam().get(i).getPokedexId()){
-                y = i;
-            }
-        }
-
-        ataque1_2.setBackground(new Color(255, 255, 255));
-        ataque1_2.setFont(new Font("Roboto", 2, 12)); // NOI18N
-        ataque1_2.setText(trainers[0].getPokemonTeam().get(x).getMoves().get(1).getName());
-        ataque1_2.addMouseListener(new MouseAdapter() {
-            public void mouseEntered(MouseEvent evt) {
-                ataque1_2MouseEntered(evt);
-            }
-            public void mouseExited(MouseEvent evt) {
-                ataque1_2MouseExited(evt);
-            }
+                .addGroup(GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(124, Short.MAX_VALUE)
+                .addComponent(imageUrl, GroupLayout.PREFERRED_SIZE, 216, GroupLayout.PREFERRED_SIZE)
+                .addGap(37, 37, 37))
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(36, 36, 36)
+                .addComponent(ImageUrl2, GroupLayout.PREFERRED_SIZE, 190, GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                );
+                for(byte i = 0; i < trainers[0].getPokemonTeam().size(); i++){
+                    if(pokemonsBattle[0].equals(trainers[0].getPokemonTeam().get(i).getPokedexId())){
+                        x = i;
+                        break;
+                    }
+                }
+                for(byte i = 0; i < trainers[1].getPokemonTeam().size(); i++){
+                    if(pokemonsBattle[1].equals(trainers[1].getPokemonTeam().get(i).getPokedexId())){
+                        y = i;
+                        break;
+                    }
+                }
+                
+                attack1_2.setBackground(new Color(255, 255, 255));
+                attack1_2.setFont(new Font("Roboto", 2, 15)); // NOI18N
+                attack1_2.setText(trainers[0].getPokemonTeam().get(x).getMoves().get(1).getName());
+                attack1_2.addMouseListener(new MouseAdapter() {
+                    public void mouseEntered(MouseEvent evt) {
+                        attack1_2MouseEntered(evt);
+                    }
+                    public void mouseExited(MouseEvent evt) {
+                        attack1_2MouseExited(evt);
+                    }
         });
-        ataque1_2.addActionListener(new ActionListener() {
+        attack1_2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                ataque1_2ActionPerformed(evt);
+                attack1_2ActionPerformed(evt);
             }
         });
 
-        ataque1_1.setBackground(new Color(255, 255, 255));
-        ataque1_1.setFont(new Font("Roboto", 2, 12)); // NOI18N
-        ataque1_1.setText(trainers[0].getPokemonTeam().get(x).getMoves().get(0).getName());
-        ataque1_1.addMouseListener(new MouseAdapter() {
+        attack1_1.setBackground(new Color(255, 255, 255));
+        attack1_1.setFont(new Font("Roboto", 2, 15)); // NOI18N
+        attack1_1.setText(trainers[0].getPokemonTeam().get(x).getMoves().get(0).getName());
+        attack1_1.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent evt) {
-                ataque1_1MouseEntered(evt);
+                attack1_1MouseEntered(evt);
             }
             public void mouseExited(MouseEvent evt) {
-                ataque1_1MouseExited(evt);
+                attack1_1MouseExited(evt);
             }
         });
 
-        ataque1_3.setBackground(new Color(255, 255, 255));
-        ataque1_3.setFont(new Font("Roboto", 2, 12)); // NOI18N
-        ataque1_3.setText(trainers[0].getPokemonTeam().get(x).getMoves().get(2).getName());
-        ataque1_3.addMouseListener(new MouseAdapter() {
+        attack1_1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                attack1_1ActionPerformed(evt);
+            }
+        });
+        
+        attack1_3.setBackground(new Color(255, 255, 255));
+        attack1_3.setFont(new Font("Roboto", 2, 15)); // NOI18N
+        attack1_3.setText(trainers[0].getPokemonTeam().get(x).getMoves().get(2).getName());
+        attack1_3.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent evt) {
-                ataque1_3MouseEntered(evt);
+                attack1_3MouseEntered(evt);
             }
             public void mouseExited(MouseEvent evt) {
-                ataque1_3MouseExited(evt);
+                attack1_3MouseExited(evt);
             }
         });
 
-        ataque1_4.setBackground(new Color(255, 255, 255));
-        ataque1_4.setFont(new Font("Roboto", 2, 12)); // NOI18N
-        ataque1_4.setText(trainers[0].getPokemonTeam().get(x).getMoves().get(3).getName());
-        ataque1_4.addMouseListener(new MouseAdapter() {
+        attack1_3.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                attack1_3ActionPerformed(evt);
+            }
+        });
+        
+        attack1_4.setBackground(new Color(255, 255, 255));
+        attack1_4.setFont(new Font("Roboto", 2, 15)); // NOI18N
+        attack1_4.setText(trainers[0].getPokemonTeam().get(x).getMoves().get(3).getName());
+        attack1_4.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent evt) {
-                ataque1_4MouseEntered(evt);
+                attack1_4MouseEntered(evt);
             }
             public void mouseExited(MouseEvent evt) {
-                ataque1_4MouseExited(evt);
+                attack1_4MouseExited(evt);
             }
         });
 
-
-        vida1.setFont(new Font("Roboto Black", 3, 12)); // NOI18N
-        vida1.setText(String.valueOf(trainers[1].getPokemonTeam().get(y).getHp()));
-
+        attack1_4.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                attack1_4ActionPerformed(evt);
+            }
+        });
+        
+        hp1.setFont(new Font("Roboto Black", 3, 12)); // NOI18N
+        hp1.setText(String.valueOf(trainers[0].getPokemonTeam().get(x).getHp()));
+        
         pokemon1.setFont(new Font("Roboto Black", 3, 12)); // NOI18N
         pokemon1.setText(trainers[0].getPokemonTeam().get(x).getName());
-
-        entrenador1.setFont(new Font("Roboto Black", 1, 12)); // NOI18N
-        entrenador1.setText(trainers[0].getName());
-
-        entrenador2.setFont(new Font("Roboto Black", 1, 12)); // NOI18N
-        entrenador2.setText(trainers[1].getName());
-
-        pokemo2.setFont(new Font("Roboto Black", 3, 12)); // NOI18N
-        pokemo2.setText(trainers[1].getPokemonTeam().get(y).getName());
-
-        vida2.setFont(new Font("Roboto Black", 3, 12)); // NOI18N
-        vida2.setText(String.valueOf(trainers[1].getPokemonTeam().get(y).getHp()));
-
-        ataque2_1.setBackground(new Color(255, 255, 255));
-        ataque2_1.setFont(new Font("Roboto", 2, 12)); // NOI18N
-        ataque2_1.setText(trainers[1].getPokemonTeam().get(y).getMoves().get(0).getName());
-        ataque2_1.addMouseListener(new MouseAdapter() {
+        
+        trainer1.setFont(new Font("Roboto Black", 1, 12)); // NOI18N
+        trainer1.setText(trainers[0].getName());
+        
+        trainer2.setFont(new Font("Roboto Black", 1, 12)); // NOI18N
+        trainer2.setText(trainers[1].getName());
+        
+        pokemon2.setFont(new Font("Roboto Black", 3, 12)); // NOI18N
+        pokemon2.setText(trainers[1].getPokemonTeam().get(y).getName());
+        
+        hp2.setFont(new Font("Roboto Black", 3, 12)); // NOI18N
+        hp2.setText(String.valueOf(trainers[1].getPokemonTeam().get(y).getHp()));
+        
+        attack2_1.setBackground(new Color(255, 255, 255));
+        attack2_1.setFont(new Font("Roboto", 2, 15)); // NOI18N
+        attack2_1.setText(trainers[1].getPokemonTeam().get(y).getMoves().get(0).getName());
+        attack2_1.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent evt) {
-                ataque2_1MouseEntered(evt);
+                attack2_1MouseEntered(evt);
             }
             public void mouseExited(MouseEvent evt) {
-                ataque2_1MouseExited(evt);
+                attack2_1MouseExited(evt);
             }
         });
 
-        ataque2_2.setBackground(new Color(255, 255, 255));
-        ataque2_2.setFont(new Font("Roboto", 2, 12)); // NOI18N
-        ataque2_2.setText(trainers[1].getPokemonTeam().get(y).getMoves().get(1).getName());
-        ataque2_2.addMouseListener(new MouseAdapter() {
-            public void mouseEntered(MouseEvent evt) {
-                ataque2_2MouseEntered(evt);
-            }
-            public void mouseExited(MouseEvent evt) {
-                ataque2_2MouseExited(evt);
-            }
-        });
-        ataque2_2.addActionListener(new ActionListener() {
+        attack2_1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                ataque2_2ActionPerformed(evt);
+                attack2_1ActionPerformed(evt);
             }
         });
-
-        ataque2_3.setBackground(new Color(255, 255, 255));
-        ataque2_3.setFont(new Font("Roboto", 2, 12)); // NOI18N
-        ataque2_3.setText(trainers[1].getPokemonTeam().get(y).getMoves().get(2).getName());
-        ataque2_3.addMouseListener(new MouseAdapter() {
+        attack2_2.setBackground(new Color(255, 255, 255));
+        attack2_2.setFont(new Font("Roboto", 2, 15)); // NOI18N
+        attack2_2.setText(trainers[1].getPokemonTeam().get(y).getMoves().get(1).getName());
+        attack2_2.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent evt) {
-                ataque2_3MouseEntered(evt);
+                attack2_2MouseEntered(evt);
             }
             public void mouseExited(MouseEvent evt) {
-                ataque2_3MouseExited(evt);
+                attack2_2MouseExited(evt);
+            }
+        });
+        attack2_2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                attack2_2ActionPerformed(evt);
             }
         });
 
-        ataque2_4.setBackground(new Color(255, 255, 255));
-        ataque2_4.setFont(new Font("Roboto", 2, 12)); // NOI18N
-        ataque2_4.setText(trainers[1].getPokemonTeam().get(y).getMoves().get(3).getName());
-        ataque2_4.addMouseListener(new MouseAdapter() {
+        attack2_3.setBackground(new Color(255, 255, 255));
+        attack2_3.setFont(new Font("Roboto", 2, 15)); // NOI18N
+        attack2_3.setText(trainers[1].getPokemonTeam().get(y).getMoves().get(2).getName());
+        attack2_3.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent evt) {
-                ataque2_4MouseEntered(evt);
+                attack2_3MouseEntered(evt);
             }
             public void mouseExited(MouseEvent evt) {
-                ataque2_4MouseExited(evt);
+                attack2_3MouseExited(evt);
             }
         });
 
-        jPanel3.setPreferredSize(new Dimension(5, 0));
+        attack2_3.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                attack2_3ActionPerformed(evt);
+            }
+        });
 
-        GroupLayout jPanel3Layout = new GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-                jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addGap(0, 5, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-                jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addGap(0, 0, Short.MAX_VALUE)
-        );
+        attack2_4.setBackground(new Color(255, 255, 255));
+        attack2_4.setFont(new Font("Roboto", 2, 15)); // NOI18N
+        attack2_4.setText(trainers[1].getPokemonTeam().get(y).getMoves().get(3).getName());
+        attack2_4.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent evt) {
+                attack2_4MouseEntered(evt);
+            }
+            public void mouseExited(MouseEvent evt) {
+                attack2_4MouseExited(evt);
+            }
+        });
 
+        attack2_4.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                attack2_4ActionPerformed(evt);
+            }
+        });
+        
         GroupLayout jPanel2Layout = new GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
-                jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 3, Short.MAX_VALUE))
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(26, 26, 26)
+            jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+            .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+            .addGap(0, 3, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                .addComponent(trainer1)
+                                .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                        .addComponent(entrenador1)
-                                        .addGroup(jPanel2Layout.createSequentialGroup()
-                                                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                                        .addComponent(ataque1_3)
-                                                        .addComponent(ataque1_1)
-                                                        .addComponent(pokemon1))
-                                                .addGap(40, 40, 40)
-                                                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                                        .addComponent(vida1, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE)
-                                                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                                                                .addComponent(ataque1_2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                                .addComponent(ataque1_4, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                .addComponent(attack1_3, 120, 120, 120)
+                                .addComponent(attack1_1, 120, 120, 120)
+                                .addComponent(pokemon1))
+                                .addGap(40, 40, 40)
+                                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                .addComponent(hp1, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                                .addComponent(attack1_2, 120, 120,120)
+                                .addComponent(attack1_4, 120, 120,120)))))
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jPanel3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                .addGap(26, 26, 26)
                                 .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                        .addGroup(jPanel2Layout.createSequentialGroup()
-                                                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                                        .addComponent(ataque2_1, GroupLayout.PREFERRED_SIZE, 109, GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(ataque2_3)
-                                                        .addComponent(pokemo2))
-                                                .addGap(35, 35, 35)
-                                                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                                        .addComponent(ataque2_4)
-                                                        .addComponent(ataque2_2)
-                                                        .addComponent(vida2)))
-                                        .addComponent(entrenador2))
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                .addComponent(attack2_1, 120, 120, 120)
+                                .addComponent(attack2_3, 120, 120, 120)
+                                .addComponent(pokemon2))
+                                .addGap(35, 35, 35)
+                                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                .addComponent(attack2_4, 120, 120, 120)
+                                .addComponent(attack2_2, 120, 120, 120)
+                                .addComponent(hp2)))
+                                .addComponent(trainer2))
                                 .addGap(34, 34, 34))
-        );
-        jPanel2Layout.setVerticalGroup(
-                jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                );
+                                jPanel2Layout.setVerticalGroup(
+                                    jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addGap(18, 18, 18)
+                                    .addComponent(trainer1))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addGap(18, 18, 18)
+                                    .addComponent(trainer2)))
+                                    .addGap(18, 18, 18)
+                                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                        .addComponent(pokemon1)
+                                        .addComponent(hp1))
+                                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                        .addComponent(pokemon2)
+                                        .addComponent(hp2)))
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                                         .addGroup(jPanel2Layout.createSequentialGroup()
-                                                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                                        .addGroup(jPanel2Layout.createSequentialGroup()
-                                                                .addGap(18, 18, 18)
-                                                                .addComponent(entrenador1))
-                                                        .addGroup(jPanel2Layout.createSequentialGroup()
-                                                                .addGap(18, 18, 18)
-                                                                .addComponent(entrenador2)))
-                                                .addGap(18, 18, 18)
-                                                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                                                .addComponent(pokemon1)
-                                                                .addComponent(vida1))
-                                                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                                                .addComponent(pokemo2)
-                                                                .addComponent(vida2)))
-                                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                                        .addGroup(jPanel2Layout.createSequentialGroup()
-                                                                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                                                        .addComponent(ataque1_1)
-                                                                        .addComponent(ataque1_2))
-                                                                .addGap(18, 18, 18)
-                                                                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                                                        .addComponent(ataque1_3)
-                                                                        .addComponent(ataque1_4)))
-                                                        .addGroup(jPanel2Layout.createSequentialGroup()
-                                                                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                                                        .addComponent(ataque2_2)
-                                                                        .addComponent(ataque2_1))
-                                                                .addGap(18, 18, 18)
-                                                                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                                                        .addComponent(ataque2_3)
-                                                                        .addComponent(ataque2_4))))
-                                                .addGap(0, 6, Short.MAX_VALUE))
+                                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                        .addComponent(attack1_1)
+                                        .addComponent(attack1_2))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                        .addComponent(attack1_3)
+                                        .addComponent(attack1_4)))
                                         .addGroup(jPanel2Layout.createSequentialGroup()
-                                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(jPanel3, GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)))
-                                .addContainerGap())
+                                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                        .addComponent(attack2_2)
+                                        .addComponent(attack2_1))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                        .addComponent(attack2_3)
+                                        .addComponent(attack2_4))))
+                                        .addGap(0, 6, Short.MAX_VALUE))
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)))
+                                        .addContainerGap())
         );
-
+        
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
+            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+            );
+            layout.setVerticalGroup(
                 layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-        );
-        layout.setVerticalGroup(
-                layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
-        pack();
+                .addComponent(jPanel2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                );
+                
+                pack();
     }// </editor-fold>
+    private void initializePokemonSelection() {
+        pokemonSelectionPanel1 = new JPanel();
+        pokemonSelectionPanel2 = new JPanel();
+        victoryPanel = new JPanel();
+        victoryLabel = new JLabel();
+        pokemonButtons1 = new JButton[3];
+        pokemonButtons2 = new JButton[3];
 
-    private void ataque2_4MouseExited(MouseEvent evt) {
-        // TODO add your handling code here:
-        ataque2_4.setBackground(Color.white);
+        // Configurar los paneles
+        pokemonSelectionPanel1.setBackground(new Color(132, 224, 223));
+        pokemonSelectionPanel2.setBackground(new Color(132, 224, 223));
+        victoryPanel.setBackground(new Color(228, 228, 228));
+
+        // Configurar el panel de victoria
+        victoryLabel.setFont(new Font("Roboto Black", Font.BOLD, 30));
+        victoryLabel.setForeground(new Color(125, 129, 174));
+        victoryPanel.add(victoryLabel);
+
+        // Establecer bounds
+        pokemonSelectionPanel1.setBounds(18, 378, 316, 157);
+        pokemonSelectionPanel2.setBounds(343, 378, 316, 157);
+        victoryPanel.setBounds(0, 300, 632, 157);
+
+        // Ahora agregar los paneles al contenedor principal
+        jPanel2.add(pokemonSelectionPanel1);
+        jPanel2.add(pokemonSelectionPanel2);
+        jPanel2.add(victoryPanel);
+
+        // Crear y configurar botones para el entrenador 1
+        for(int i = 0; i < 3; i++) {
+            pokemonButtons1[i] = new JButton();
+            pokemonButtons1[i].setPreferredSize(new Dimension(120, 50));
+            final int index = i;
+            
+            loadPokemonIcon(pokemonButtons1[i], trainers[0].getPokemonTeam().get(i));
+            pokemonButtons1[i].setText("<html>" + trainers[0].getPokemonTeam().get(i).getName() + 
+                                    "<br>HP: " + trainers[0].getPokemonTeam().get(i).getHp() + "</html>");
+            
+            pokemonButtons1[i].addActionListener(e -> selectPokemon(0, index));
+            pokemonSelectionPanel1.add(pokemonButtons1[i]);
+        }
+
+        // Crear y configurar botones para el entrenador 2
+        for(int i = 0; i < 3; i++) {
+            pokemonButtons2[i] = new JButton();
+            pokemonButtons2[i].setPreferredSize(new Dimension(120, 50));
+            final int index = i;
+            
+            loadPokemonIcon(pokemonButtons2[i], trainers[1].getPokemonTeam().get(i));
+            pokemonButtons2[i].setText("<html>" + trainers[1].getPokemonTeam().get(i).getName() + 
+                                    "<br>HP: " + trainers[1].getPokemonTeam().get(i).getHp() + "</html>");
+            
+            pokemonButtons2[i].addActionListener(e -> selectPokemon(1, index));
+            pokemonSelectionPanel2.add(pokemonButtons2[i]);
+        }
+
+        // Ocultar paneles inicialmente
+        pokemonSelectionPanel1.setVisible(false);
+        pokemonSelectionPanel2.setVisible(false);
+        victoryPanel.setVisible(false);
     }
 
-    private void ataque2_4MouseEntered(MouseEvent evt) {
-        // TODO add your handling code here:
-        ataque2_4.setBackground(new Color (7, 155, 219));
+    private void createStylizedBorder(int x, int y, int width, int height, boolean isHorizontal, boolean isCentralSeparator, boolean isBottom, boolean isRight) {
+        // Capa base (más oscura)
+        JSeparator baseBorder = new JSeparator(isHorizontal ? JSeparator.HORIZONTAL : JSeparator.VERTICAL);
+        baseBorder.setBackground(new Color(63, 63, 63));
+        baseBorder.setForeground(new Color(63, 63, 63));
+        baseBorder.setOpaque(true);
+        baseBorder.setBounds(x, y, width, height);
+        
+        // Capa media (tono medio)
+        JSeparator middleBorder = new JSeparator(isHorizontal ? JSeparator.HORIZONTAL : JSeparator.VERTICAL);
+        middleBorder.setBackground(new Color(125, 129, 174));
+        middleBorder.setForeground(new Color(125, 129, 174));
+        middleBorder.setOpaque(true);
+        if (isHorizontal) {
+            if (isBottom) {
+                middleBorder.setBounds(x, y - 1, width, height);
+            } else {
+                middleBorder.setBounds(x, y + 1, width, height);
+            }
+        } else {
+            if (isRight) {
+                middleBorder.setBounds(x - 1, y, width, height);
+            } else {
+                middleBorder.setBounds(x + 1, y, width, height);
+            }
+        }
+        
+        // Capa superior (más clara)
+        JSeparator lightBorder = new JSeparator(isHorizontal ? JSeparator.HORIZONTAL : JSeparator.VERTICAL);
+        lightBorder.setBackground(new Color(230, 230, 230));
+        lightBorder.setForeground(new Color(230, 230, 230));
+        lightBorder.setOpaque(true);
+        if (isHorizontal) {
+            if (isBottom) {
+                middleBorder.setBounds(x, y - 3, width, height);
+            } else {
+                middleBorder.setBounds(x, y + 3, width, height);
+            }
+        } else {
+            if (isRight) {
+                middleBorder.setBounds(x - 3, y, width, height);
+            } else {
+                middleBorder.setBounds(x + 3, y, width, height);
+            }
+        }
+        if (isCentralSeparator) {
+            centralBaseBorder = baseBorder;
+            centralMiddleBorder = middleBorder;
+            centralLightBorder = lightBorder;
+        }
+        jPanel2.add(baseBorder);
+        jPanel2.add(middleBorder);
+        jPanel2.add(lightBorder);
     }
-
-    private void ataque2_3MouseExited(MouseEvent evt) {
-        // TODO add your handling code here:
-        ataque2_3.setBackground(Color.white);
-    }
-
-    private void ataque2_3MouseEntered(MouseEvent evt) {
-        // TODO add your handling code here:
-        ataque2_3.setBackground(new Color (7, 155, 219));
-    }
-
-    private void ataque2_2ActionPerformed(ActionEvent evt) {
-        // TODO add your handling code here:
-    }
-
-    private void ataque2_2MouseExited(MouseEvent evt) {
-        // TODO add your handling code here:
-        ataque2_2.setBackground(Color.white);
-    }
-
-    private void ataque2_2MouseEntered(MouseEvent evt) {
-        // TODO add your handling code here:
-        ataque2_2.setBackground(new Color (7, 155, 219));
-    }
-
-    private void ataque2_1MouseExited(MouseEvent evt) {
-        // TODO add your handling code here:
-        ataque2_1.setBackground(Color.white);
-    }
-
-    private void ataque2_1MouseEntered(MouseEvent evt) {
-        // TODO add your handling code here:
-        ataque2_1.setBackground(new Color (7, 155, 219));
-    }
-
-    private void ataque1_4MouseExited(MouseEvent evt) {
-        // TODO add your handling code here:
-        ataque1_4.setBackground(Color.white);
-    }
-
-    private void ataque1_4MouseEntered(MouseEvent evt) {
-        // TODO add your handling code here:
-        ataque1_4.setBackground(new Color (7, 155, 219));
-    }
-
-    private void ataque1_3MouseExited(MouseEvent evt) {
-        // TODO add your handling code here:
-        ataque1_3.setBackground(Color.white);
-    }
-
-    private void ataque1_3MouseEntered(MouseEvent evt) {
-        // TODO add your handling code here:
-        ataque1_3.setBackground(new Color (7, 155, 219));
-    }
-
-    private void ataque1_1MouseExited(MouseEvent evt) {
-        // TODO add your handling code here:
-        ataque1_1.setBackground(Color.white);
-    }
-
-    private void ataque1_1MouseEntered(MouseEvent evt) {
-        // TODO add your handling code here:
-        ataque1_1.setBackground(new Color (7, 155, 219));
-    }
-
-    private void ataque1_2ActionPerformed(ActionEvent evt) {
-        // TODO add your handling code here:
-    }
-
-    private void ataque1_2MouseExited(MouseEvent evt) {
-        // TODO add your handling code here:
-        ataque1_2.setBackground(Color.white);
-    }
-
-    private void ataque1_2MouseEntered(MouseEvent evt) {
-        // TODO add your handling code here:
-        ataque1_2.setBackground(new Color (7, 155, 219));
-    }
-
-
-
-    private void cargarImagenPokemon() {
+    
+    // Método para cargar el icono del Pokémon
+    private void loadPokemonIcon(JButton button, Pokemon pokemon) {
         new SwingWorker<ImageIcon, Void>() {
             @Override
             protected ImageIcon doInBackground() throws Exception {
-                String urlImagen = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/"+ pokemonsBattle[0]+ ".png"; // Pikachu
-                Image imagen = ImageIO.read(new URL(urlImagen));
-                return new ImageIcon(imagen);
+                URL url = new URL(pokemon.getIcon());
+                Image image = ImageIO.read(url);
+                return new ImageIcon(image);
+            }
+    
+            @Override
+            protected void done() {
+                try {
+                    ImageIcon icon = get();
+                    Image scaledImage = icon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+                    button.setIcon(new ImageIcon(scaledImage));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }.execute();
+    }
+    
+    // Método para seleccionar un nuevo Pokémon
+    private void selectPokemon(int trainer, int pokemonIndex) {
+        if (trainer == 0) {
+            x = (byte)pokemonIndex;
+            pokemonSelectionPanel1.setVisible(false);
+            if (trainers[0].getPokemonTeam().get(x).getHp() > 0) {
+                attack1_1.setVisible(true);
+                attack1_2.setVisible(true);
+                attack1_3.setVisible(true);
+                attack1_4.setVisible(true);
+                pokemonsBattle[0] = trainers[0].getPokemonTeam().get(x).getPokedexId();
+                updatePokemonInfo();
+                loadPokemonImage();
+                enableTrainer1Attacks();
+            }
+        } else {
+            y = (byte)pokemonIndex;
+            pokemonSelectionPanel2.setVisible(false);
+            if (trainers[1].getPokemonTeam().get(y).getHp() > 0) {
+                attack2_1.setVisible(true);
+                attack2_2.setVisible(true);
+                attack2_3.setVisible(true);
+                attack2_4.setVisible(true);
+                pokemonsBattle[1] = trainers[1].getPokemonTeam().get(y).getPokedexId();
+                updatePokemonInfo();
+                loadPokemonImage2();
+                enableTrainer2Attacks();
+            }
+        }
+    }
+    
+    // Método para actualizar la información de los Pokémon
+    private void updatePokemonInfo() {
+        pokemon1.setText(trainers[0].getPokemonTeam().get(x).getName());
+        pokemon2.setText(trainers[1].getPokemonTeam().get(y).getName());
+        hp1.setText(String.valueOf(trainers[0].getPokemonTeam().get(x).getHp()));
+        hp2.setText(String.valueOf(trainers[1].getPokemonTeam().get(y).getHp()));
+        
+        // Actualizar textos de los botones de ataque
+        attack1_1.setText(trainers[0].getPokemonTeam().get(x).getMoves().get(0).getName());
+        attack1_2.setText(trainers[0].getPokemonTeam().get(x).getMoves().get(1).getName());
+        attack1_3.setText(trainers[0].getPokemonTeam().get(x).getMoves().get(2).getName());
+        attack1_4.setText(trainers[0].getPokemonTeam().get(x).getMoves().get(3).getName());
+        
+        attack2_1.setText(trainers[1].getPokemonTeam().get(y).getMoves().get(0).getName());
+        attack2_2.setText(trainers[1].getPokemonTeam().get(y).getMoves().get(1).getName());
+        attack2_3.setText(trainers[1].getPokemonTeam().get(y).getMoves().get(2).getName());
+        attack2_4.setText(trainers[1].getPokemonTeam().get(y).getMoves().get(3).getName());
+    }
+
+    private void hideEverything() {
+        pokemonSelectionPanel1.setVisible(false);
+        pokemonSelectionPanel2.setVisible(false);
+        attack1_1.setVisible(false);
+        attack1_2.setVisible(false);
+        attack1_3.setVisible(false);
+        attack1_4.setVisible(false);
+        attack2_1.setVisible(false);
+        attack2_2.setVisible(false);
+        attack2_3.setVisible(false);
+        attack2_4.setVisible(false);
+        hp1.setVisible(false);
+        hp2.setVisible(false);
+        centralBaseBorder.setVisible(false);
+        centralMiddleBorder.setVisible(false);
+        centralLightBorder.setVisible(false);
+        trainer1.setVisible(false);
+        trainer2.setVisible(false);
+        pokemon1.setVisible(false);
+        pokemon2.setVisible(false);
+        victoryPanel.setVisible(false);
+    }
+    
+    // Método para verificar el estado de la batalla
+    private void checkBattleState() {
+        boolean trainer1HasAlivePokemon = false;
+        boolean trainer2HasAlivePokemon = false;
+        
+        // Verificar Pokémon vivos del entrenador 1
+        for (Pokemon pokemon : trainers[0].getPokemonTeam()) {
+            if (pokemon.getHp() > 0) {
+                trainer1HasAlivePokemon = true;
+                break;
+            }
+        }
+        
+        // Verificar Pokémon vivos del entrenador 2
+        for (Pokemon pokemon : trainers[1].getPokemonTeam()) {
+            if (pokemon.getHp() > 0) {
+                trainer2HasAlivePokemon = true;
+                break;
+            }
+        }
+        
+        // Mostrar panel de victoria si algún entrenador perdió
+        if (!trainer1HasAlivePokemon || !trainer2HasAlivePokemon) {
+            hideEverything();
+            victoryPanel.setVisible(true);
+            victoryPanel.setBounds(0, 410, jPanel2.getWidth(), jPanel2.getHeight());
+            victoryLabel.setText("<html>" + (!trainer1HasAlivePokemon ? trainers[1].getName() : trainers[0].getName()) 
+                            + " ha ganado la batalla. <br><center>¡Felicidades!</center></html>");
+        }
+        
+        // Actualizar botones de selección de Pokémon
+        updatePokemonButtons();
+    }
+    
+    // Método para actualizar los botones de selección de Pokémon
+    private void updatePokemonButtons() {
+        for (int i = 0; i < 3; i++) {
+            Pokemon pokemon1 = trainers[0].getPokemonTeam().get(i);
+            Pokemon pokemon2 = trainers[1].getPokemonTeam().get(i);
+            
+            pokemonButtons1[i].setText("<html>" + pokemon1.getName() + "<br>HP: " + pokemon1.getHp() + "</html>");
+            pokemonButtons2[i].setText("<html>" + pokemon2.getName() + "<br>HP: " + pokemon2.getHp() + "</html>");
+            
+            pokemonButtons1[i].setEnabled(pokemon1.getHp() > 0);
+            pokemonButtons2[i].setEnabled(pokemon2.getHp() > 0);
+        }
+    }
+            
+    private void disableTrainer1Attacks() {
+        attack1_1.setEnabled(false);
+        attack1_2.setEnabled(false);
+        attack1_3.setEnabled(false);
+        attack1_4.setEnabled(false);
+    }
+    
+    private void enableTrainer1Attacks() {
+        attack1_1.setEnabled(true);
+        attack1_2.setEnabled(true);
+        attack1_3.setEnabled(true);
+        attack1_4.setEnabled(true);
+    }
+    
+    private void disableTrainer2Attacks() {
+        attack2_1.setEnabled(false);
+        attack2_2.setEnabled(false);
+        attack2_3.setEnabled(false);
+        attack2_4.setEnabled(false);
+    }
+    
+    private void enableTrainer2Attacks() {
+        attack2_1.setEnabled(true);
+        attack2_2.setEnabled(true);
+        attack2_3.setEnabled(true);
+        attack2_4.setEnabled(true);
+    }
+
+    private void deselectAllButtons() {
+        // Deseleccionar botones del trainer 1
+        attack1_1.setSelected(false);
+        attack1_2.setSelected(false);
+        attack1_3.setSelected(false);
+        attack1_4.setSelected(false);
+        
+        // Deseleccionar botones del trainer 2
+        attack2_1.setSelected(false);
+        attack2_2.setSelected(false);
+        attack2_3.setSelected(false);
+        attack2_4.setSelected(false);
+        
+        // Restaurar color original
+        attack1_1.setBackground(Color.white);
+        attack1_2.setBackground(Color.white);
+        attack1_3.setBackground(Color.white);
+        attack1_4.setBackground(Color.white);
+        attack2_1.setBackground(Color.white);
+        attack2_2.setBackground(Color.white);
+        attack2_3.setBackground(Color.white);
+        attack2_4.setBackground(Color.white);
+    }
+
+    private void attack2_4ActionPerformed(ActionEvent evt) {
+        // TODO add your handling code here:
+        if (attack1_1.isEnabled() || attack1_2.isEnabled() || attack1_3.isEnabled() || attack1_4.isEnabled()) {
+            moveTrainer2 = 3;
+            disableTrainer2Attacks();
+        } else {
+            moveTrainer2 = 3;
+            disableTrainer2Attacks();
+            attackBySpeed();
+        }
+    }
+
+    private void attack2_4MouseExited(MouseEvent evt) {
+        // TODO add your handling code here:
+        attack2_4.setBackground(Color.white);
+    }
+
+    private void attack2_4MouseEntered(MouseEvent evt) {
+        // TODO add your handling code here:
+        attack2_4.setBackground(new Color (7, 155, 219));
+    }
+
+    private void attack2_3ActionPerformed(ActionEvent evt) {
+        // TODO add your handling code here:
+        if (attack1_1.isEnabled() || attack1_2.isEnabled() || attack1_3.isEnabled() || attack1_4.isEnabled()) {
+            moveTrainer2 = 2;
+            disableTrainer2Attacks();
+        } else {
+            moveTrainer2 = 2;
+            disableTrainer2Attacks();
+            attackBySpeed();
+        }
+    }
+
+    private void attack2_3MouseExited(MouseEvent evt) {
+        // TODO add your handling code here:
+        attack2_3.setBackground(Color.white);
+    }
+
+    private void attack2_3MouseEntered(MouseEvent evt) {
+        // TODO add your handling code here:
+        attack2_3.setBackground(new Color (7, 155, 219));
+    }
+
+    private void attack2_2ActionPerformed(ActionEvent evt) {
+        // TODO add your handling code here:
+        if (attack1_1.isEnabled() || attack1_2.isEnabled() || attack1_3.isEnabled() || attack1_4.isEnabled()) {
+            moveTrainer2 = 1;
+            disableTrainer2Attacks();
+        } else {
+            moveTrainer2 = 1;
+            disableTrainer2Attacks();
+            attackBySpeed();
+        }
+    }
+
+    private void attack2_2MouseExited(MouseEvent evt) {
+        // TODO add your handling code here:
+        attack2_2.setBackground(Color.white);
+    }
+
+    private void attack2_2MouseEntered(MouseEvent evt) {
+        // TODO add your handling code here:
+        attack2_2.setBackground(new Color (7, 155, 219));
+    }
+
+    private void attack2_1ActionPerformed(ActionEvent evt) {
+        // TODO add your handling code here:
+        if (attack1_1.isEnabled() || attack1_2.isEnabled() || attack1_3.isEnabled() || attack1_4.isEnabled()) {
+            moveTrainer2 = 0;
+            disableTrainer2Attacks();
+        } else {
+            moveTrainer2 = 0;
+            disableTrainer2Attacks();
+            attackBySpeed();
+        }
+    }
+
+    private void attack2_1MouseExited(MouseEvent evt) {
+        // TODO add your handling code here:
+        attack2_1.setBackground(Color.white);
+    }
+
+    private void attack2_1MouseEntered(MouseEvent evt) {
+        // TODO add your handling code here:
+        attack2_1.setBackground(new Color (7, 155, 219));
+    }
+
+    private void attack1_4ActionPerformed(ActionEvent evt) {
+        // TODO add your handling code here:
+        if (attack2_1.isEnabled() || attack2_2.isEnabled() || attack2_3.isEnabled() || attack2_4.isEnabled()) {
+            moveTrainer1 = 3;
+            disableTrainer1Attacks();
+        } else {
+            moveTrainer1 = 3;
+            disableTrainer1Attacks();
+            attackBySpeed();
+        }
+    }
+
+    private void attack1_4MouseExited(MouseEvent evt) {
+        // TODO add your handling code here:
+        attack1_4.setBackground(Color.white);
+    }
+
+    private void attack1_4MouseEntered(MouseEvent evt) {
+        // TODO add your handling code here:
+        attack1_4.setBackground(new Color (7, 155, 219));
+    }
+
+    private void attack1_3ActionPerformed(ActionEvent evt) {
+        // TODO add your handling code here:
+        if (attack2_1.isEnabled() || attack2_2.isEnabled() || attack2_3.isEnabled() || attack2_4.isEnabled()) {
+            moveTrainer1 = 2;
+            disableTrainer1Attacks();
+        } else {
+            moveTrainer1 = 2;
+            disableTrainer1Attacks();
+            attackBySpeed();
+        }
+    }
+
+    private void attack1_3MouseExited(MouseEvent evt) {
+        // TODO add your handling code here:
+        attack1_3.setBackground(Color.white);
+    }
+
+    private void attack1_3MouseEntered(MouseEvent evt) {
+        // TODO add your handling code here:
+        attack1_3.setBackground(new Color (7, 155, 219));
+    }
+
+    private void attack1_1ActionPerformed(ActionEvent evt) {
+        // TODO add your handling code here:
+        if (attack2_1.isEnabled() || attack2_2.isEnabled() || attack2_3.isEnabled() || attack2_4.isEnabled()) {
+            moveTrainer1 = 0;
+            disableTrainer1Attacks();
+        } else {
+            moveTrainer1 = 0;
+            disableTrainer1Attacks();
+            attackBySpeed();
+        }
+    }
+
+    private void attack1_1MouseExited(MouseEvent evt) {
+        // TODO add your handling code here:
+        attack1_1.setBackground(Color.white);
+    }
+
+    private void attack1_1MouseEntered(MouseEvent evt) {
+        // TODO add your handling code here:
+        attack1_1.setBackground(new Color (7, 155, 219));
+    }
+
+    private void attack1_2ActionPerformed(ActionEvent evt) {
+        // TODO add your handling code here:
+        if (attack2_1.isEnabled() || attack2_2.isEnabled() || attack2_3.isEnabled() || attack2_4.isEnabled()) {
+            moveTrainer1 = 1;
+            disableTrainer1Attacks();
+        } else {
+            moveTrainer1 = 1;
+            disableTrainer1Attacks();
+            attackBySpeed();
+        }
+    }
+
+    private void attack1_2MouseExited(MouseEvent evt) {
+        // TODO add your handling code here:
+        attack1_2.setBackground(Color.white);
+    }
+
+    private void attack1_2MouseEntered(MouseEvent evt) {
+        // TODO add your handling code here:
+        attack1_2.setBackground(new Color (7, 155, 219));
+    }
+
+    private void loadPokemonImage() {
+        new SwingWorker<ImageIcon, Void>() {
+            @Override
+            protected ImageIcon doInBackground() throws Exception {
+                if (trainers[0].getPokemonTeam().get(x) == null) {
+                    return null;
+                }else {
+                    String urlImagen = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/"+pokemonsBattle[0]+ ".png";
+                    Image imagen = ImageIO.read(new URL(urlImagen));
+                    return new ImageIcon(imagen);
+                }
             }
 
             @Override
@@ -471,13 +922,19 @@ public class Battle extends JFrame {
             }
         }.execute();
     }
-    private void cargarImagenPokemon2() {
+
+    private void loadPokemonImage2() {
         new SwingWorker<ImageIcon, Void>() {
             @Override
             protected ImageIcon doInBackground() throws Exception {
-                String urlImagen = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"+pokemonsBattle[1]+ ".png";
-                Image imagen = ImageIO.read(new URL(urlImagen));
-                return new ImageIcon(imagen);
+                if (trainers[1].getPokemonTeam().get(y) == null) {
+                    return null;
+                }else {
+                    String urlImagen = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"+pokemonsBattle[1]+ ".png";
+                    Image imagen = ImageIO.read(new URL(urlImagen));
+                    return new ImageIcon(imagen);
+                }
+                
             }
 
             @Override
@@ -496,6 +953,102 @@ public class Battle extends JFrame {
                 }
             }
         }.execute();
+    }
+
+    public void attackBySpeed() {
+        Pokemon _pokemon1 = trainers[0].getPokemonTeam().get(x);
+        Pokemon _pokemon2 = trainers[1].getPokemonTeam().get(y);
+
+        // Determina quién ataca primero basado en la velocidad
+        if (_pokemon1.getSpeed() >= _pokemon2.getSpeed()) {
+            // Pokemon 1 ataca primero
+            _pokemon1.movement(_pokemon2, moveTrainer1);
+            
+            // Actualiza la hp del Pokemon 2 y verifica si murió
+            if (_pokemon2.getHp() <= 0) {
+                _pokemon2.setHp((short)0);
+                hp2.setText("0");
+                ImageUrl2.setIcon(null);
+                disableTrainer2Attacks();
+                attack2_1.setVisible(false);
+                attack2_2.setVisible(false);
+                attack2_3.setVisible(false);
+                attack2_4.setVisible(false);
+                pokemonSelectionPanel2.setVisible(true);
+                jPanel2.setComponentZOrder(pokemonSelectionPanel2, 0);
+                checkBattleState();
+                enableTrainer1Attacks();
+            } else {
+                hp2.setText(String.valueOf(_pokemon2.getHp()));
+                _pokemon2.movement(_pokemon1, moveTrainer2);
+                
+                if (_pokemon1.getHp() <= 0) {
+                    _pokemon1.setHp((short)0);
+                    hp1.setText("0");
+                    imageUrl.setIcon(null);
+                    disableTrainer1Attacks();
+                    attack1_1.setVisible(false);
+                    attack1_2.setVisible(false);
+                    attack1_3.setVisible(false);
+                    attack1_4.setVisible(false);
+                    pokemonSelectionPanel1.setVisible(true);
+                    jPanel2.setComponentZOrder(pokemonSelectionPanel1, 0);
+                    checkBattleState();
+                    enableTrainer2Attacks();
+                } else {
+                    hp1.setText(String.valueOf(_pokemon1.getHp()));
+                    enableTrainer1Attacks();
+                    enableTrainer2Attacks();
+                }
+            }
+        } else {
+            // Pokemon 2 ataca primero
+            _pokemon2.movement(_pokemon1, moveTrainer2);
+            
+            // Actualiza la hp del Pokemon 1 y verifica si murió
+            if (_pokemon1.getHp() <= 0) {
+                _pokemon1.setHp((short)0);
+                hp1.setText("0");
+                imageUrl.setIcon(null);
+                disableTrainer1Attacks();
+                attack1_1.setVisible(false);
+                attack1_2.setVisible(false);
+                attack1_3.setVisible(false);
+                attack1_4.setVisible(false);
+                pokemonSelectionPanel1.setVisible(true);
+                jPanel2.setComponentZOrder(pokemonSelectionPanel1, 0);
+                checkBattleState();
+                enableTrainer2Attacks();
+            } else {
+                hp1.setText(String.valueOf(_pokemon1.getHp()));
+                _pokemon1.movement(_pokemon2, moveTrainer1);
+
+                if (_pokemon2.getHp() <= 0) {
+                    _pokemon2.setHp((short)0);
+                    hp2.setText("0");
+                    ImageUrl2.setIcon(null);
+                    disableTrainer2Attacks();
+                    attack2_1.setVisible(false);
+                    attack2_2.setVisible(false);
+                    attack2_3.setVisible(false);
+                    attack2_4.setVisible(false);
+                    pokemonSelectionPanel2.setVisible(true);
+                    jPanel2.setComponentZOrder(pokemonSelectionPanel2, 0);
+                    checkBattleState();
+                    enableTrainer1Attacks();
+                } else {
+                    hp2.setText(String.valueOf(_pokemon2.getHp()));
+                    enableTrainer2Attacks();
+                    enableTrainer1Attacks();
+                }
+            }
+        }
+        
+        // Reinicia los movimientos seleccionados
+        moveTrainer1 = -1;
+        moveTrainer2 = -1;
+
+        deselectAllButtons();
     }
     /**
      * @param args the command line arguments
@@ -534,36 +1087,48 @@ public class Battle extends JFrame {
 
     // Variables declaration - do not modify
     private JLabel ImageUrl2;
-    private JToggleButton ataque1_1;
-    private JToggleButton ataque1_2;
-    private JToggleButton ataque1_3;
-    private JToggleButton ataque1_4;
-    private JToggleButton ataque2_1;
-    private JToggleButton ataque2_2;
-    private JToggleButton ataque2_3;
-    private JToggleButton ataque2_4;
-    private JLabel entrenador1;
-    private JLabel entrenador2;
+    private JToggleButton attack1_1;
+    private JToggleButton attack1_2;
+    private JToggleButton attack1_3;
+    private JToggleButton attack1_4;
+    private JToggleButton attack2_1;
+    private JToggleButton attack2_2;
+    private JToggleButton attack2_3;
+    private JToggleButton attack2_4;
+    private JLabel trainer1;
+    private JLabel trainer2;
     private JLabel imageUrl;
     private JPanel jPanel1;
     private JPanel jPanel2;
-    private JPanel jPanel3;
-    private JLabel pokemo2;
+    private JSeparator centralBaseBorder;
+    private JSeparator centralMiddleBorder;
+    private JSeparator centralLightBorder;
+    private JLabel pokemon2;
     private JLabel pokemon1;
-    private JLabel vida1;
-    private JLabel vida2;
+    private JLabel hp1;
+    private JLabel hp2;
+    private JPanel pokemonSelectionPanel1;
+    private JPanel pokemonSelectionPanel2;
+    private JPanel victoryPanel;
+    private JButton[] pokemonButtons1;
+    private JButton[] pokemonButtons2;
+    private JLabel victoryLabel;
     // End of variables declaration
 
-    class FondoPanel extends JPanel{
+    class BackgroundPanel extends JPanel{
         private Image imagen;
         @Override
-        public void paint(Graphics g){
+        public void paint(Graphics g) {
             imagen = new ImageIcon(getClass().getResource("fondo.jpg")).getImage();
-            g.drawImage(imagen, 0, 0 , getWidth(), getHeight(), this);
+            g.drawImage(imagen, 0, 0, getWidth(), getHeight(), this);
 
             setOpaque(false);
-
             super.paint(g);
+        }
+
+        @Override
+        public Dimension getPreferredSize() {
+            return new Dimension(657, 360); // Set fixed size (width x height)
         }
     }
 }

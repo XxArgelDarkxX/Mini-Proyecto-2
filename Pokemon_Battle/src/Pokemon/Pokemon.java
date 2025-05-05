@@ -1,5 +1,5 @@
 package Pokemon;
-import Data.Pokemons;
+import Data.Data;
 import Data.Type;
 import Movement.Movement;
 import java.util.ArrayList;
@@ -58,7 +58,7 @@ public class Pokemon {
         this.moves = moves;
         this.frontSprite = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + pokedexId + ".png";
         this.backSprite = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/" + pokedexId + ".png";
-        this.icon = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-viii/icons/" + pokedexId + ".png";
+        this.icon = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-vii/icons/" + pokedexId + ".png";
     }
 
     public void setName(String name) {
@@ -168,7 +168,7 @@ public class Pokemon {
         for (Movement move : this.moves) {
             System.out.println(move.getName() + " - " + move.getPower() + " de poder base.");
         }
-        Pokemons.initializeMoves(); // Se inicializan los movimientos para el siguiente Pokemon.
+        Data.initializeMoves(); // Se inicializan los movimientos para el siguiente Pokemon.
     }
     
     // Este método calcula la efectividad de un movimiento de un tipo de Pokemon sobre otro tipo de Pokemon.
@@ -187,18 +187,12 @@ public class Pokemon {
 
     // Este método permite a un Pokemon atacar a otro Pokemon.
     public void movement(Pokemon target, int moveIndex) {
-        Movement move = (Movement) moves.get(moveIndex);
+        Movement move = (Movement) this.moves.get(moveIndex);
         double effectiveness = moveEffectiveness(move.getType(), target.getType());
         // Se obtiene el ataque del Pokemon atacante.
         short currentAttack = move.getTypeAttack() == Movement.TypeAttack.FISICO ? this.attack : this.specialAttack; 
         short currentDefense = move.getTypeAttack() == Movement.TypeAttack.FISICO ? target.getDefense() 
         : target.getSpecialDefense(); // Se obtiene la defensa del Pokemon defensor.
         target.setHp((short) (target.getHp() - (((currentAttack/currentDefense) * move.getPower()) * effectiveness + 2))); // Se resta la vida del Pokemon objetivo.
-        System.out.println(this.name + " ha usado " + move.getName() + "!");
-        if (target.getHp() <= 0) {
-            System.out.println(target.getName() + " ha sido derrotado!");
-        } else {
-            System.out.println(target.getName() + " tiene " + target.getHp() + " de vida.");
-        }  
     }
 }

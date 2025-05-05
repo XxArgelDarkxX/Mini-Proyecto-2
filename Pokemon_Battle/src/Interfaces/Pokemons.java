@@ -14,19 +14,19 @@ import java.util.ArrayList;
  *
  * @author crisc
  */
-public class pokemones extends javax.swing.JFrame {
+public class Pokemons extends javax.swing.JFrame {
 
     private  Trainer[] trainers;
     String[] pokemonsBattle = new String[2];
 
 
     /**
-     * Creates new form pokemones
+     * Creates new form Pokemons
      */
-    public pokemones() {
+    public Pokemons() {
         initComponents();
     }
-    public pokemones(Trainer[] trainers) {
+    public Pokemons(Trainer[] trainers) {
         this.trainers = trainers;
         initComponents();
         // Puedes usar los trainers
@@ -51,13 +51,13 @@ public class pokemones extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
-        batalla = new javax.swing.JButton();
-        textoEscoger1 = new javax.swing.JTextField();
-        escoger1 = new javax.swing.JLabel();
-        textoEscoger2 = new javax.swing.JTextField();
-        escoger2 = new javax.swing.JLabel();
-        entrenador1 = new javax.swing.JLabel();
-        entrenador2 = new javax.swing.JLabel();
+        battle = new javax.swing.JButton();
+        chooseText1 = new javax.swing.JTextField();
+        choose1 = new javax.swing.JLabel();
+        chooseText2 = new javax.swing.JTextField();
+        choose2 = new javax.swing.JLabel();
+        trainer1 = new javax.swing.JLabel();
+        trainer2 = new javax.swing.JLabel();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -105,21 +105,21 @@ public class pokemones extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(153, 204, 255));
 
-        batalla.setBackground(new java.awt.Color(255, 255, 255));
-        batalla.setFont(new java.awt.Font("Roboto", 2, 14)); // NOI18N
-        batalla.setForeground(new java.awt.Color(0, 0, 0));
-        batalla.setText("BATALLA");
-        batalla.addMouseListener(new java.awt.event.MouseAdapter() {
+        battle.setBackground(new java.awt.Color(255, 255, 255));
+        battle.setFont(new java.awt.Font("Roboto", 2, 14)); // NOI18N
+        battle.setForeground(new java.awt.Color(0, 0, 0));
+        battle.setText("A LUCHAR!");
+        battle.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                batallaMouseEntered(evt);
+                battleMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                batallaMouseExited(evt);
+                battleMouseExited(evt);
             }
         });
-        batalla.addActionListener(new java.awt.event.ActionListener() {
+        battle.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                batallaActionPerformed(evt);
+                battleActionPerformed(evt);
             }
         });
 
@@ -129,42 +129,42 @@ public class pokemones extends javax.swing.JFrame {
                 jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(26, 26, 26)
-                                .addComponent(batalla)
+                                .addComponent(battle)
                                 .addContainerGap(27, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
                 jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(168, 168, 168)
-                                .addComponent(batalla)
+                                .addComponent(battle)
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        textoEscoger1.setText("");
-        textoEscoger1.addActionListener(new java.awt.event.ActionListener() {
+        chooseText1.setText("");
+        chooseText1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textoEscoger1ActionPerformed(evt);
+                chooseText1ActionPerformed(evt);
             }
         });
 
-        escoger1.setFont(new java.awt.Font("Roboto Black", 2, 12)); // NOI18N
-        escoger1.setText("Elegir el primer pokemone:");
+        choose1.setFont(new java.awt.Font("Roboto Black", 2, 12)); // NOI18N
+        choose1.setText("Elegir el primer pokemone:");
 
-        textoEscoger2.setText("");
-        textoEscoger2.addActionListener(new java.awt.event.ActionListener() {
+        chooseText2.setText("");
+        chooseText2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textoEscoger2ActionPerformed(evt);
+                chooseText2ActionPerformed(evt);
             }
         });
 
-        escoger2.setFont(new java.awt.Font("Roboto Black", 2, 12)); // NOI18N
-        escoger2.setText("Elegir el primer pokemone:");
+        choose2.setFont(new java.awt.Font("Roboto Black", 2, 12)); // NOI18N
+        choose2.setText("Elegir el primer pokemone:");
 
-        entrenador1.setFont(new java.awt.Font("Roboto Condensed", 3, 12)); // NOI18N
-        entrenador1.setText("Entrenador: " + trainers[0].getName());
+        trainer1.setFont(new java.awt.Font("Roboto Condensed", 3, 12)); // NOI18N
+        trainer1.setText("Entrenador: " + trainers[0].getName());
 
-        entrenador2.setFont(new java.awt.Font("Roboto Condensed", 3, 12)); // NOI18N
-        entrenador2.setText("Entrenador: " + trainers[1].getName());
+        trainer2.setFont(new java.awt.Font("Roboto Condensed", 3, 12)); // NOI18N
+        trainer2.setText("Entrenador: " + trainers[1].getName());
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -179,18 +179,18 @@ public class pokemones extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
-                                                .addComponent(escoger2, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(choose2, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(textoEscoger2, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(chooseText2, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(155, 155, 155))
                                         .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                         .addGroup(jPanel1Layout.createSequentialGroup()
                                                                 .addGap(163, 163, 163)
-                                                                .addComponent(entrenador1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                .addComponent(trainer1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                         .addGroup(jPanel1Layout.createSequentialGroup()
                                                                 .addGap(166, 166, 166)
-                                                                .addComponent(entrenador2, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                .addComponent(trainer2, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                         .addGroup(jPanel1Layout.createSequentialGroup()
                                                                 .addGap(62, 62, 62)
                                                                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -199,9 +199,9 @@ public class pokemones extends javax.swing.JFrame {
                                                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                         .addGroup(jPanel1Layout.createSequentialGroup()
-                                                                                .addComponent(escoger1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                .addComponent(choose1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                                                .addComponent(textoEscoger1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                                                                .addComponent(chooseText1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -211,26 +211,26 @@ public class pokemones extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(entrenador1)
+                                                .addComponent(trainer1)
                                                 .addGap(15, 15, 15)
                                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(18, 18, 18)
                                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                        .addComponent(escoger1)
-                                                        .addComponent(textoEscoger1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                                        .addComponent(choose1)
+                                                        .addComponent(chooseText1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 108, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(39, 39, 39))
                                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                                .addComponent(entrenador2)
+                                                .addComponent(trainer2)
                                                 .addGap(18, 18, 18)
                                                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(12, 12, 12)
                                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                        .addComponent(textoEscoger2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(escoger2))
+                                                        .addComponent(chooseText2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(choose2))
                                                 .addGap(30, 30, 30))))
                         .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -251,31 +251,31 @@ public class pokemones extends javax.swing.JFrame {
         pack();
     }// </editor-fold>
 
-    private void batallaMouseEntered(java.awt.event.MouseEvent evt) {
+    private void battleMouseEntered(java.awt.event.MouseEvent evt) {
         // TODO add your handling code here:
-        batalla.setBackground(new Color(173, 216, 230));
+        battle.setBackground(new Color(173, 216, 230));
 
     }
 
     @SuppressWarnings("empty-statement")
-    private void batallaMouseExited(java.awt.event.MouseEvent evt) {
+    private void battleMouseExited(java.awt.event.MouseEvent evt) {
         // TODO add your handling code here:
-        batalla.setBackground(Color.white);
+        battle.setBackground(Color.white);
     }
     String pokemon1 , pokemon2;
-    private void textoEscoger1ActionPerformed(java.awt.event.ActionEvent evt) {
+    private void chooseText1ActionPerformed(java.awt.event.ActionEvent evt) {
 
     }
 
-    private void textoEscoger2ActionPerformed(java.awt.event.ActionEvent evt) {
+    private void chooseText2ActionPerformed(java.awt.event.ActionEvent evt) {
 
     }
 
-    private void batallaActionPerformed(java.awt.event.ActionEvent evt) {
+    private void battleActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-        String pokemon1 = textoEscoger1.getText().trim();
+        String pokemon1 = chooseText1.getText().trim();
         pokemonsBattle[0] = pokemon1;
-        String pokemon2 = textoEscoger2.getText().trim();
+        String pokemon2 = chooseText2.getText().trim();
         pokemonsBattle[1] = pokemon2;
         if(pokemon1.equals("") && pokemon2.equals("")){
             JOptionPane.showMessageDialog(null, "Debe seleccionar un pokemon");
@@ -284,10 +284,9 @@ public class pokemones extends javax.swing.JFrame {
         }else if(!(trainers[1].getPokemonTeam().get(0).getPokedexId().equals(pokemon2) ||trainers[1].getPokemonTeam().get(1).getPokedexId().equals(pokemon2) || trainers[1].getPokemonTeam().get(2).getPokedexId().equals(pokemon2))){
             JOptionPane.showMessageDialog(null, "esta mal el id del pokemon 2");
         }else {
-            System.out.println( pokemonsBattle[0] + pokemonsBattle[1]);
             this.dispose();
-            Battle batallas = new Battle(trainers, pokemonsBattle);
-            batallas.setVisible(true);
+            Battle battles = new Battle(trainers, pokemonsBattle);
+            battles.setVisible(true);
         }
 
     }
@@ -309,30 +308,30 @@ public class pokemones extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(pokemones.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Pokemons.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(pokemones.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Pokemons.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(pokemones.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Pokemons.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(pokemones.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Pokemons.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new pokemones().setVisible(true);
+                new Pokemons().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify
-    private javax.swing.JButton batalla;
-    private javax.swing.JLabel entrenador1;
-    private javax.swing.JLabel entrenador2;
-    private javax.swing.JLabel escoger1;
-    private javax.swing.JLabel escoger2;
+    private javax.swing.JButton battle;
+    private javax.swing.JLabel trainer1;
+    private javax.swing.JLabel trainer2;
+    private javax.swing.JLabel choose1;
+    private javax.swing.JLabel choose2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -343,7 +342,7 @@ public class pokemones extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTextField textoEscoger1;
-    private javax.swing.JTextField textoEscoger2;
+    private javax.swing.JTextField chooseText1;
+    private javax.swing.JTextField chooseText2;
     // End of variables declaration
 }

@@ -1,17 +1,17 @@
 package Interfaces;
-import Data.Pokemons;
+import Data.Data;
 import Entrenador.Trainer;
 import Pokemon.Pokemon;
 
 import javax.swing.*;
 import java.awt.Color;
 
-public class agregar_entrenador extends javax.swing.JFrame {
+public class AddTrainer extends javax.swing.JFrame {
     Trainer[] trainers = new Trainer[2];
-    Pokemons data = new Pokemons();
-    Pokemon poke = new Pokemon();
+    Data data = new Data();
+    Pokemon pokemon = new Pokemon();
 
-    public agregar_entrenador() {
+    public AddTrainer() {
         initComponents();
     }
     @SuppressWarnings("unchecked")
@@ -19,25 +19,26 @@ public class agregar_entrenador extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel2 = new javax.swing.JPanel();
-        titulo = new javax.swing.JLabel();
+        title = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
-        imagen = new javax.swing.JLabel();
-        botonAgregar = new javax.swing.JButton();
-        cuadro_entrenador_1 = new javax.swing.JTextField();
-        entrenador_1 = new javax.swing.JLabel();
-        entrenador_2 = new javax.swing.JLabel();
+        image = new javax.swing.JLabel();
+        addButton = new javax.swing.JButton();
+        trainerBox1 = new javax.swing.JTextField();
+        trainer1 = new javax.swing.JLabel();
+        trainer2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        titulo.setBackground(new java.awt.Color(255, 255, 255));
-        titulo.setFont(new java.awt.Font("Roboto", 2, 18)); // NOI18N
-        titulo.setForeground(new java.awt.Color(0, 0, 0));
-        titulo.setText("Agrege los nombre de los entrenadores");
-        titulo.setToolTipText("");
-        titulo.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        title.setBackground(new java.awt.Color(255, 255, 255));
+        title.setFont(new java.awt.Font("Roboto", 2, 18)); // NOI18N
+        title.setForeground(new java.awt.Color(0, 0, 0));
+        title.setText("Agrege los nombre de los entrenadores");
+        title.setToolTipText("");
+        title.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jTextField1.setForeground(new java.awt.Color(153, 153, 153));
         jTextField1.setToolTipText("your name");
@@ -68,45 +69,45 @@ public class agregar_entrenador extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        imagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("2094425.png"))); // NOI18N
-        imagen.setText("jLabel2");
+        image.setIcon(new javax.swing.ImageIcon(getClass().getResource("2094425.png"))); // NOI18N
+        image.setText("jLabel2");
 
-        botonAgregar.setBackground(new java.awt.Color(224, 255, 255));
-        botonAgregar.setForeground(new java.awt.Color(0, 0, 0));
-        botonAgregar.setText("Agregar");
-        botonAgregar.addMouseListener(new java.awt.event.MouseAdapter() {
+        addButton.setBackground(new java.awt.Color(224, 255, 255));
+        addButton.setForeground(new java.awt.Color(0, 0, 0));
+        addButton.setText("Agregar");
+        addButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                botonAgregarMouseEntered(evt);
+                addButtonMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                botonAgregarMouseExited(evt);
+                addButtonMouseExited(evt);
             }
         });
-        botonAgregar.addActionListener(new java.awt.event.ActionListener() {
+        addButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonAgregarActionPerformed(evt);
+                addButtonActionPerformed(evt);
             }
         });
 
-        cuadro_entrenador_1.setForeground(new java.awt.Color(153, 153, 153));
-        cuadro_entrenador_1.setToolTipText("your name");
-        cuadro_entrenador_1.addFocusListener(new java.awt.event.FocusAdapter() {
+        trainerBox1.setForeground(new java.awt.Color(153, 153, 153));
+        trainerBox1.setToolTipText("your name");
+        trainerBox1.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                cuadro_entrenador_1FocusGained(evt);
+                trainerBox1FocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                cuadro_entrenador_1FocusLost(evt);
+                trainerBox1FocusLost(evt);
             }
         });
-        cuadro_entrenador_1.addActionListener(new java.awt.event.ActionListener() {
+        trainerBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cuadro_entrenador_1ActionPerformed(evt);
+                trainerBox1ActionPerformed(evt);
             }
         });
 
-        entrenador_1.setText("Entrenador 1°");
+        trainer1.setText("Entrenador 1°");
 
-        entrenador_2.setText("Entrenador 2°");
+        trainer2.setText("Entrenador 2°");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -119,41 +120,41 @@ public class agregar_entrenador extends javax.swing.JFrame {
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                         .addGroup(jPanel2Layout.createSequentialGroup()
-                                                                .addComponent(imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addComponent(image, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                .addComponent(titulo))
+                                                                .addComponent(title))
                                                         .addGroup(jPanel2Layout.createSequentialGroup()
                                                                 .addGap(48, 48, 48)
                                                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                                        .addComponent(entrenador_2)
-                                                                        .addComponent(entrenador_1))
+                                                                        .addComponent(trainer2)
+                                                                        .addComponent(trainer1))
                                                                 .addGap(48, 48, 48)
                                                                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                         .addGroup(jPanel2Layout.createSequentialGroup()
                                                 .addGap(175, 175, 175)
                                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(cuadro_entrenador_1, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(botonAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                                        .addComponent(trainerBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addContainerGap(24, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
                 jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(imagen)
+                                        .addComponent(image)
                                         .addGroup(jPanel2Layout.createSequentialGroup()
                                                 .addGap(26, 26, 26)
-                                                .addComponent(titulo)))
+                                                .addComponent(title)))
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(entrenador_1)
+                                        .addComponent(trainer1)
                                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(31, 31, 31)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(entrenador_2)
-                                        .addComponent(cuadro_entrenador_1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(trainer2)
+                                        .addComponent(trainerBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-                                .addComponent(botonAgregar)
+                                .addComponent(addButton)
                                 .addGap(27, 27, 27))
                         .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -190,24 +191,24 @@ public class agregar_entrenador extends javax.swing.JFrame {
         trainers[0].setName(nombreEntrenador1);
     }
 
-    private void cuadro_entrenador_1FocusGained(java.awt.event.FocusEvent evt) {
+    private void trainerBox1FocusGained(java.awt.event.FocusEvent evt) {
         // TODO add your handling code here:
     }
 
-    private void cuadro_entrenador_1FocusLost(java.awt.event.FocusEvent evt) {
+    private void trainerBox1FocusLost(java.awt.event.FocusEvent evt) {
         trainers[1] = new Trainer();
-        String nombreEntrenador2 = cuadro_entrenador_1.getText().trim();
+        String nombreEntrenador2 = trainerBox1.getText().trim();
         trainers[1].setName(nombreEntrenador2);
     }
 
-    private void cuadro_entrenador_1ActionPerformed(java.awt.event.ActionEvent evt) {
+    private void trainerBox1ActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
     }
 
-    private void botonAgregarActionPerformed(java.awt.event.ActionEvent evt) {
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
         String nombreEntrenador1 = jTextField1.getText().trim();
-        String nombreEntrenador2 = cuadro_entrenador_1.getText().trim();
+        String nombreEntrenador2 = trainerBox1.getText().trim();
 
         if(nombreEntrenador1.isEmpty() || nombreEntrenador2.isEmpty()){
             JOptionPane.showMessageDialog(null, "El entrenador no puede estar vacio");
@@ -224,20 +225,20 @@ public class agregar_entrenador extends javax.swing.JFrame {
 
             //se abre la otra ventana de pokemone
             this.dispose();
-            pokemones vista = new pokemones(trainers);
+            Pokemons vista = new Pokemons(trainers);
             vista.setVisible(true);
         }
 
     }
 
-    private void botonAgregarMouseEntered(java.awt.event.MouseEvent evt) {
+    private void addButtonMouseEntered(java.awt.event.MouseEvent evt) {
         // TODO add your handling code here:
-        botonAgregar.setBackground(new Color (135, 206, 250));
+        addButton.setBackground(new Color (135, 206, 250));
     }
 
-    private void botonAgregarMouseExited(java.awt.event.MouseEvent evt) {
+    private void addButtonMouseExited(java.awt.event.MouseEvent evt) {
         // TODO add your handling code here:
-        botonAgregar.setBackground(new Color (224, 255, 255));
+        addButton.setBackground(new Color (224, 255, 255));
     }
 
 
@@ -258,33 +259,33 @@ public class agregar_entrenador extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(agregar_entrenador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddTrainer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(agregar_entrenador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddTrainer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(agregar_entrenador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddTrainer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(agregar_entrenador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddTrainer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new agregar_entrenador().setVisible(true);
+                new AddTrainer().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify                     
-    private javax.swing.JButton botonAgregar;
-    private javax.swing.JTextField cuadro_entrenador_1;
-    private javax.swing.JLabel entrenador_1;
-    private javax.swing.JLabel entrenador_2;
-    private javax.swing.JLabel imagen;
+    private javax.swing.JButton addButton;
+    private javax.swing.JTextField trainerBox1;
+    private javax.swing.JLabel trainer1;
+    private javax.swing.JLabel trainer2;
+    private javax.swing.JLabel image;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JLabel titulo;
+    private javax.swing.JLabel title;
     // End of variables declaration                   
 }
