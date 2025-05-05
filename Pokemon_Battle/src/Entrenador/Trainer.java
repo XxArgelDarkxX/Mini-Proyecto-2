@@ -9,7 +9,6 @@ public class Trainer {
     private String name;
 
     private ArrayList<Pokemon> pokemonTeam = new ArrayList<>();
-
     public Trainer() {
     }
 
@@ -93,4 +92,6 @@ public class Trainer {
         }
         
     }
+
+
 }
